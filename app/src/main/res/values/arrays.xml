@@ -1,0 +1,35 @@
+<resources>
+    <!--  Distance Preference  -->
+    <string-array name="distance_entries">
+        <item>500m</item>
+        <item>1km</item>
+        <item>1.5km</item>
+        <item>2km</item>
+    </string-array>
+    <string-array name="distance_values">
+        <item>500</item>
+        <item>1000</item>
+        <item>1500</item>
+        <item>2000</item>
+    </string-array>
+
+    <!-- Language -->
+    <string-array name="language_entries">
+        <item>English</item>
+        <item>Turkish</item>
+    </string-array>
+    <string-array name="language_values">
+        <item>en</item>
+        <item>tr</item>
+    </string-array>
+
+    <!-- Alarm Type -->
+    <string-array name="alarm_type_entries">
+        <item>@string/alarm_type_fullscreen</item>
+        <item>@string/alarm_type_notification</item>
+    </string-array>
+    <string-array name="alarm_type_values">
+        <item>full_screen</item>
+        <item>notification</item>
+    </string-array>
+</resources>

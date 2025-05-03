@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.HelpActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_tv_1_title"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/cyan"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:lineSpacingExtra="3sp"
+            android:text="@string/help_tv_1_summary"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/go_notification_permit_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="@string/notifications"
+            android:onClick="goNotificationPermits"
+            android:textStyle="bold"
+            android:textColor="@color/light_blue"
+            android:textAllCaps="false"
+            android:background="@android:color/transparent"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_tv_2_title"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/cyan"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:lineSpacingExtra="3sp"
+            android:text="@string/help_tv_2_summary"
+            android:textSize="15sp"/>
+
+        <Button
+            android:id="@+id/go_settings_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:onClick="goSettings"
+            android:text="@string/settings"
+            android:textStyle="bold"
+            android:textColor="@color/light_blue"
+            android:textAllCaps="false"
+            android:background="@android:color/transparent"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_tv_3_title"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/cyan"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:lineSpacingExtra="3sp"
+            android:text="@string/help_tv_3_summary"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
+
+</ScrollView>

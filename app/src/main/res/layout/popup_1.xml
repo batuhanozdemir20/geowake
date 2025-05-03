@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/popup_bg"
+    android:padding="15dp"
+    android:orientation="vertical"
+    android:elevation="10dp">
+
+    <RelativeLayout
+        android:id="@+id/touch_hint_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/touch_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/touch"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/popup_touch"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginStart="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/touch_iv"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/user_gps_hint_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/user_gps_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/center_user_loc"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/popup_user_gps"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginStart="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/user_gps_iv"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/marker_hint_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/marker_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/baseline_location_pin_24"
+            android:background="@drawable/circle_red"
+            android:layout_centerVertical="true"
+            app:tint="@color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/popup_marker"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginStart="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/marker_iv"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/stop_hint_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/stop_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/baseline_stop_24"
+            android:background="@drawable/circle_red"
+            android:layout_centerVertical="true"
+            app:tint="@color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/popup_stop"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginStart="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/stop_iv"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/start_hint_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/start_iv"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/start_bt"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/popup_start"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginStart="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/start_iv"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/edit_hint_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/edit_iv"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/edit_bt"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/popup_edit"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginStart="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/edit_iv"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/ok_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:layout_gravity="end"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="15dp"/>
+
+
+</LinearLayout>

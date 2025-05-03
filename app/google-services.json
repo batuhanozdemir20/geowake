@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "960373894027",
+    "project_id": "geowake-e9006",
+    "storage_bucket": "geowake-e9006.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960373894027:android:6a46d72f4af40b871b1d8e",
+        "android_client_info": {
+          "package_name": "com.ozapps.geowake"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVXJYilFeQSAvgwBoRPhjvtpQDd-2RDvk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

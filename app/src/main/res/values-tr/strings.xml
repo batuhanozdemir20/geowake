@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GeoWake</string>
+    <string name="title_activity_maps">Harita</string>
+    <string name="geowake_logo_desc">geowake logo</string>
+    <string name="settings">Ayarlar</string>
+    <string name="about">Hakkında</string>
+    <string name="help">Yardım</string>
+
+    <string name="ok">Tamam</string>
+    <string name="yes">Evet</string>
+    <string name="no">Hayır</string>
+    <string name="stop">Durdur</string>
+    <string name="delete">Sil</string>
+
+    <!--  PERMISSION  -->
+    <string name="permission_needed">İzin Gerekli!</string>
+    <string name="permission_location">Konum için izin gerekli</string>
+    <string name="permission_notification">Önplan servisinin bildirimi için izin gerekli</string>
+    <string name="give_permission">İzin ver</string>
+    <string name="notifications_is_of">Bildirimler kapalı, lütfen açın</string>
+
+    <string name="is_draw_overlay_title">Arka plan izni</string>
+    <string name="is_draw_overlay_message">Uygulamanın sorunsuz çalışması için lütfen arka plan işlemlerine izin verin.</string>
+    <string name="go_settings">Ayarlara git</string>
+    <string name="cancel">İptal</string>
+
+
+    <!--  Main Activity  -->
+    <string name="no_alarm">Alarm Yok</string>
+
+
+    <!--  Adapter  -->
+    <string name="delete_alarm_title">Alarm silinecek!</string>
+    <string name="are_you_sure">Emin misiniz?</string>
+
+
+    <!--  Maps Layout  -->
+    <string name="set_alarm_bt">alarm kur</string>
+    <string name="edit_bt">düzenle</string>
+    <string name="start_bt">başlat</string>
+    <!--  Maps Activity  -->
+    <string name="open_location_title">Konum kapalı</string>
+    <string name="open_location_message">Lütfen konumunuzu açın</string>
+    <string name="open_location_ok">Konum aç</string>
+
+    <string name="alarm_will_set_title">Alarm kurulacak, lütfen konumunuzu kapatmayın</string>
+    <string name="alarm_is_set">Alarm kuruldu</string>
+
+    <string name="stop_alarm_title">Alarm iptal edilecek!</string>
+    <string name="stop_alarm_message">Alarmı iptal etmek istediğinize emin misiniz?</string>
+    <string name="stop_alarm_toast">Alarm iptal edildi</string>
+
+    <string name="reminder_title">Hatırlatma</string>
+    <string name="reminder_message">Alarm sesini cihazın medya sesinden kontrol etmeniz gerekir</string>
+
+
+    <!--  Hint  -->
+    <string name="popup_touch">İşaretlemek için basılı tutun</string>
+    <string name="popup_user_gps">Konumunuzu haritada ortalayabilirsiniz</string>
+    <string name="popup_marker">Hedefinizin konumunu buradan görebilirsiniz</string>
+    <string name="popup_start">Seçtiğiniz alarmı hazır ayarlarıyla direkt çalıştırabilirsiniz</string>
+    <string name="popup_edit">Seçtiğiniz alarmın bilgilerini düzenleyebilirsiniz</string>
+    <string name="popup_stop">Alarmı kapatıp konum takibini iptal edebilirsiniz</string>
+    <!--  Hint bsd  -->
+    <string name="popup_name">Seçtiğiniz konuma isim verebilirsiniz</string>
+    <string name="popup_distance">Konuma ne kadar yaklaşınca alarm çalacağını belirtin (metre cinsinden)</string>
+    <string name="popup_distance_def">Yazmazsanız varsayılan olarak ayarlanır</string>
+    <string name="popup_one_time">Kaydetmek istemiyorsanız alarmı tek seferlik kurabilirsiniz</string>
+
+
+    <!--  Alarm Details Layout  -->
+    <string name="location_name_et_hint">Konum İsmi</string>
+    <string name="distance_et_hint">Mesafe</string>
+    <string name="one_time_sw">Bir kez çalıştır</string>
+    <string name="save_bt">kaydet &amp; başlat</string>
+    <!--  Alarm Details Bottom Sheet Dialog  -->
+    <string name="distance_et_hint_def">varsayılan</string>
+    <string name="one_time_toast">Alarm bu konum için bir kez çalıştırılacak</string>
+    <string name="save_bt_run">başlat</string>
+    <string name="enter_location_name">Lütfen alarm için konum ismi girin</string>
+
+
+    <!--  Foreground Service  -->
+    <string name="geowake_running">GeoWake çalışıyor</string>
+    <string name="tracking_location">Konumunuzu izliyor…</string>
+
+
+    <!--  SETTINGS LAYOUT  -->
+    <string name="title_activity_settings">Ayarlar</string>
+    <string name="title_alarm">Alarm</string>
+    <string name="default_distance">Varsayılan Mesafe</string>
+    <string name="silent_sw">Sessiz Mod</string>
+    <string name="silent_sw_on">Sadece Titreşim</string>
+    <string name="silent_sw_off">Ses ve Titreşim</string>
+    <string name="alarm_type_list">Tip</string>
+    <string name="alarm_type_fullscreen">Tam Ekran</string>
+    <string name="alarm_type_notification">Bildirim</string>
+
+    <string name="title_app">Uygulama</string>
+    <string name="language_list">Dil</string>
+    <string name="hide_tips">İpuçları gizle</string>
+    <string name="tips_hidden">İpuçları gizli</string>
+
+    <string name="title_background_op">Arkaplan İşlemleri</string>
+    <string name="overlay_permission_title">Diğer uygulamaların üzerinde göster</string>
+    <string name="overlay_permission_summary">Uygulamanın diğer uygulamalar üzerinde alarm ekranını görüntülemesine izin verin</string>
+    <string name="battery_optimization_title">Batarya optimizasyonunu devre dışı bırak</string>
+    <string name="battery_optimization_summary">Uygulamanın kesintisiz arka planda çalışabileceğinden emin olun</string>
+    <string name="miui_autostart_title">Diğer arkaplan izinleri</string>
+    <string name="miui_autostart_summary">AutoStart iznini kontrol edin ve etkinleştirin</string>
+
+    <string name="title_info">Bilgi</string>
+    <string name="version">Sürüm</string>
+    <!--  Settings Activity  -->
+    <string name="battery_is_disabled">Batarya optimizasyonu zaten devre dışı bırakılmış</string>
+    <string name="you_should_manually_control">Bu ayarı manuel kontrol etmelisiniz</string>
+
+
+    <!-- About Layout -->
+    <string name="about_tv_1_title">GeoWake Nedir?</string>
+    <string name="about_tv_1_summary">
+        GeoWake konum bazlı bir alarm uygulamasıdır.
+        Durağınızı kaçırmamanız için yaklaştığınızda sizi sesli alarm veya bildirim aracılığıyla uyarır.
+    </string>
+    <string name="about_tv_2_title">Nasıl Çalışır?</string>
+    <string name="about_tv_2_summary">
+        GeoWake, bir konumu haritadan işaretleyip o konum için bir alarm kurduğunuz zaman sizin anlık konumunuzu takip etmeye başlar.
+        Uygulama kapansa bile siz durağınıza varana kadar arka planda mesafenizi kontrol etmeye devam eder.
+        Durağa, belirlediğiniz mesafede yaklaştığınızda ise alarm veya bildirim ile sizi uyarır ve konum takibini bırakır.
+    </string>
+
+
+    <!-- Help Layout -->
+    <string name="help_tv_1_title">Alarm kuruyorum ama konumumu takip etmiyor</string>
+    <string name="help_tv_1_summary">
+        GeoWake konum takibi yaparken bunu size bir bildirim ile gösterir.
+        Eğer bu bildirimi görmüyorsanız bildirim izninizi kontrol edin.
+        Bildirimler kapalıysa GeoWake size bildirim gönderemez ve konum takibinizi yapamaz.
+        Lütfen bildirimleri kontrol edin.
+    </string>
+    <string name="help_tv_2_title">Durağa vardığımda alarm çalmadı</string>
+    <string name="help_tv_2_summary">
+        GeoWake verilmi bir şekilde çalışmak için bazı izinlere ihtiyaç duyar.
+        Eğer alarm çalmıyorsa Ayarlar > Arkaplan İşlemleri başlığı altındaki ayarları kontrol edin
+    </string>
+    <string name="help_tv_3_title">Alarmın sesi çıkmıyor</string>
+    <string name="help_tv_3_summary">
+        GeoWake, alarm sesi olarak cihazınızın varsayılan alarm sesini kullanır.
+        Bunun sesini medya ses seviyesinden ayarlamanız gerekir.
+        Eğer medya sesi kapalıysa duyamazsınız.
+    </string>
+
+    <string name="notifications">Bildirimler</string>
+
+
+    <!-- Feedback Layout -->
+    <string name="give_feedback">Geri bildirim</string>
+    <string name="write_feedback">Geri bildiriminizi buraya yazın…</string>
+    <string name="submit">Gönder</string>
+
+    <string name="thanks_feedback">Geri bildirim için teşekkürler</string>
+    <string name="fail_feedback">Geri bildirim gönderilemedi</string>
+    <string name="enter_feedback">Lütfen bir geri bildirim girin</string>
+    <string name="internet_reminder_message">Lütfen internete bağlı olduğunuzdan emin olun</string>
+    <string name="sent_feedback">Geri bildirim gönderilecek</string>
+
+
+    <!--  Alarm Activity  -->
+    <string name="left">kaldı</string>
+</resources>

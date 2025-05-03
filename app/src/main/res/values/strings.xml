@@ -1,0 +1,174 @@
+<resources>
+    <string name="app_name">GeoWake</string>
+    <string name="app_version" translatable="false">v%s</string>
+    <string name="main_activity_ad_banner_id" translatable="false">ca-app-pub-4069362318810897/1534734052</string>
+    <string name="main_activity_ad_banner_id_test" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="maps_activity_ad_interstitial_id_test" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+
+    <string name="title_activity_maps">Map</string>
+    <string name="geowake_logo_desc">geowake logo</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="help">Help</string>
+    <string name="ok">Ok</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="stop">Stop</string>
+    <string name="delete">Delete</string>
+
+    <!--  PERMISSION  -->
+    <string name="permission_needed">Permission Needed!</string>
+    <string name="permission_location">Permission needed for location</string>
+    <string name="permission_notification">Permission needed for Notification of Foreground Service</string>
+    <string name="give_permission">Give permission</string>
+    <string name="notifications_is_of">Notifications is off, please turn on.</string>
+
+    <string name="is_draw_overlay_title">Background permissions</string>
+    <string name="is_draw_overlay_message">Please allow background operations for the application to work smoothly</string>
+    <string name="go_settings">Go to Settings</string>
+    <string name="cancel">Cancel</string>
+
+
+    <!--  Main Activity  -->
+    <string name="no_alarm">No Alarm</string>
+
+
+    <!--  Adapter  -->
+    <string name="delete_alarm_title">This alarm will be deleted!</string>
+    <string name="are_you_sure">Are you sure?</string>
+
+
+    <!--  Maps Layout  -->
+    <string name="set_alarm_bt">set alarm</string>
+    <string name="edit_bt">edit</string>
+    <string name="start_bt">start</string>
+    <!--  Maps Activity  -->
+    <string name="open_location_title">Location is Disabled</string>
+    <string name="open_location_message">Please open location service</string>
+    <string name="open_location_ok">Open the location service</string>
+
+    <string name="alarm_will_set_title">The alarm will be set, please do not turn off your location service</string>
+    <string name="alarm_is_set">The alarm is set</string>
+
+    <string name="stop_alarm_title">The alarm will be canceled!</string>
+    <string name="stop_alarm_message">Are you sure you want to cancel the alarm?</string>
+    <string name="stop_alarm_toast">The alarm canceled</string>
+
+    <string name="reminder_title">Reminder</string>
+    <string name="reminder_message">You need to control the alarm sound using your device\'s media volume</string>
+
+
+    <!--  Hint  -->
+    <string name="popup_touch">Press and hold to mark</string>
+    <string name="popup_user_gps">You can center your location on the map</string>
+    <string name="popup_marker">You can see your destination here</string>
+    <string name="popup_start">You can start the selected alarm with its default settings</string>
+    <string name="popup_edit">You can edit the details of the selected alarm</string>
+    <string name="popup_stop">You can turn off the alarm and cancel location tracking</string>
+    <!--  Hint bsd  -->
+    <string name="popup_name">You can name your chosen location</string>
+    <string name="popup_distance">Specify how close you need to get before the alarm rings (in meters)</string>
+    <string name="popup_distance_def">If left empty, the default value will be used</string>
+    <string name="popup_one_time">If you don\'t want to save it, you can set a one-time alarm</string>
+
+
+    <!--  Alarm Details Layout  -->
+    <string name="location_name_et_hint">Location Name</string>
+    <string name="distance_et_hint">Distance</string>
+    <string name="one_time_sw">One-time</string>
+    <string name="save_bt">save &amp; run</string>
+    <!--  Alarm Details Bottom Sheet Dialog  -->
+    <string name="distance_et_hint_def">default</string>
+    <string name="one_time_toast">The alarm will be set once for this location</string>
+    <string name="save_bt_run">run</string>
+    <string name="enter_location_name">Please enter a location name for the alarm</string>
+
+
+    <!--  Foreground Service  -->
+    <string name="geowake_running">GeoWake is running</string>
+    <string name="tracking_location">Tracking your location…</string>
+
+
+    <!--  SETTINGS LAYOUT  -->
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_alarm">Alarm</string>
+    <string name="default_distance">Default Distance</string>
+    <string name="silent_sw">Silent Mode</string>
+    <string name="silent_sw_on">Just Vibration</string>
+    <string name="silent_sw_off">Sound and Vibration</string>
+    <string name="alarm_type_list">Type</string>
+    <string name="alarm_type_fullscreen">Full Screen</string>
+    <string name="alarm_type_notification">Notification</string>
+
+    <string name="title_app">App</string>
+    <string name="language_list">Language</string>
+    <string name="hide_tips">Hide tips</string>
+    <string name="tips_hidden">Tips hidden</string>
+
+    <string name="title_background_op">Background Operations</string>
+    <string name="overlay_permission_title">Draw Over Other Apps Permission</string>
+    <string name="overlay_permission_summary">Allow the app to display alarm screen over other apps</string>
+    <string name="battery_optimization_title">Disable Battery Optimization</string>
+    <string name="battery_optimization_summary">Ensure the app can run in the background without interruptions</string>
+    <string name="miui_autostart_title">Background Running Permission</string>
+    <string name="miui_autostart_summary">Check and enable AutoStart permission</string>
+
+    <string name="title_info">Information</string>
+    <string name="version">Version</string>
+    <!--  Settings Activity  -->
+    <string name="battery_is_disabled">Battery optimization is already disabled</string>
+    <string name="you_should_manually_control">You should manually control this setting</string>
+
+
+    <!-- About Layout -->
+    <string name="about_tv_1_title">What is GeoWake?</string>
+    <string name="about_tv_1_summary">
+        GeoWake is a location-based alarm application.
+        It alerts you with a sound alarm or notification when you approach your stop, ensuring you don’t miss it.
+    </string>
+    <string name="about_tv_2_title">How does it work?</string>
+    <string name="about_tv_2_summary">
+        GeoWake starts tracking your real-time location once you mark a spot on the map and set an alarm for it.
+        Even if the app is closed, it continues monitoring your distance in the background until you reach your stop.
+        When you get within the set distance, it notifies you with an alarm or a notification and then stops tracking your location.
+    </string>
+
+
+    <!-- Help Layout -->
+    <string name="help_tv_1_title">The alarm is set, but my location isn’t being tracked</string>
+    <string name="help_tv_1_summary">
+        GeoWake displays a notification while tracking your location.
+        If you don’t see this notification, check your notification permissions.
+        If notifications are disabled, GeoWake won’t be able to track your location or send alerts.
+        Check your notification permits please.
+    </string>
+    <string name="help_tv_2_title">The alarm didn’t go off when I reached my stop</string>
+    <string name="help_tv_2_summary">
+        GeoWake requires certain permissions to function properly.
+        If the alarm didn’t sound, check the settings under Settings > Background Processes to ensure the necessary permissions are granted.
+    </string>
+    <string name="help_tv_3_title">The alarm has no sound</string>
+    <string name="help_tv_3_summary">
+        GeoWake uses your device’s default alarm sound.
+        You need to adjust its volume through the media volume settings.
+        If media volume is muted, you won’t hear the alarm.
+    </string>
+
+    <string name="notifications">Notifications</string>
+
+
+    <!-- Feedback Layout -->
+    <string name="give_feedback">Give Feedback</string>
+    <string name="write_feedback">Write your feedback here…</string>
+    <string name="submit">Submit</string>
+
+    <string name="thanks_feedback">Thanks for your feedback</string>
+    <string name="fail_feedback">Feedback could not be sent</string>
+    <string name="enter_feedback">Please enter your feedback</string>
+    <string name="internet_reminder_message">Please ensure you are connected to the internet</string>
+    <string name="sent_feedback">This feedback will be sent</string>
+
+
+    <!--  Alarm Activity  -->
+    <string name="left">left</string>
+</resources>

@@ -1,0 +1,79 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/title_alarm">
+
+        <ListPreference
+            app:key="default_distance"
+            app:title="@string/default_distance"
+            app:entries="@array/distance_entries"
+            app:entryValues="@array/distance_values"
+            app:defaultValue="500"
+            app:useSimpleSummaryProvider="true"/>
+
+        <SwitchPreferenceCompat
+            app:key="silent"
+            app:title="@string/silent_sw"
+            app:summaryOff="@string/silent_sw_off"
+            app:summaryOn="@string/silent_sw_on"
+            app:defaultValue="false"/>
+
+        <ListPreference
+            app:key="alarm_type"
+            app:title="@string/alarm_type_list"
+            app:entries="@array/alarm_type_entries"
+            app:entryValues="@array/alarm_type_values"
+            app:defaultValue="full_screen"
+            app:useSimpleSummaryProvider="true"/>
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory app:title="@string/title_app">
+
+        <ListPreference
+            app:key="language"
+            app:title="@string/language_list"
+            app:entries="@array/language_entries"
+            app:entryValues="@array/language_values"
+            app:defaultValue="en"
+            app:useSimpleSummaryProvider="true"/>
+
+        <CheckBoxPreference
+            app:key="hide_tips"
+            app:title="@string/hide_tips"
+            app:summaryOn="@string/tips_hidden"
+            app:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory app:title="@string/title_background_op">
+
+        <Preference
+            app:key="overlay_permission"
+            app:title="@string/overlay_permission_title"
+            app:summary="@string/overlay_permission_summary"/>
+
+        <Preference
+            app:key="battery_optimization"
+            app:title="@string/battery_optimization_title"
+            app:summary="@string/battery_optimization_summary"/>
+
+        <Preference
+            app:key="miui_autostart"
+            app:title="@string/miui_autostart_title"
+            app:summary="@string/miui_autostart_summary"/>
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory app:title="@string/title_info">
+
+        <Preference
+            app:key="version"
+            app:title="@string/version"
+            app:summary="@string/app_version"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

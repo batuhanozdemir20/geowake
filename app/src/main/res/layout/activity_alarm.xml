@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#404C55"
+    android:orientation="vertical"
+    tools:context=".views.AlarmActivity">
+
+    <TextView
+        android:id="@+id/alarm_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:padding="16dp"
+        android:text="Destination"
+        android:textColor="#FFFFFF"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="314dp"
+        android:src="@drawable/alarm_image"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/distance_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:padding="16dp"
+        android:text="200m left"
+        android:textColor="#FFFFFF"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/stop_alarm_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_gravity="center"
+        android:background="@drawable/alarm_stop_bt_bg"
+        android:onClick="stopAlarm"
+        android:paddingHorizontal="35dp"
+        android:text="@string/stop"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="@color/black"/>
+
+</LinearLayout>

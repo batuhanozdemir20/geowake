@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/maps_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        tools:context=".views.MapsActivity" />
+
+    <Button
+        android:id="@+id/set_alarm_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/button_bg_blue"
+        android:elevation="6dp"
+        android:onClick="setAlarm"
+        android:paddingHorizontal="30dp"
+        android:text="@string/set_alarm_bt"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:visibility="gone"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/alarm_stop_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:clickable="true"
+        android:elevation="6dp"
+        android:onClick="stopAlarm"
+        android:tint="@color/white"
+        android:visibility="gone"
+        map:backgroundTint="#FF0000"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
+        map:maxImageSize="40dp"
+        map:srcCompat="@drawable/baseline_stop_24" />
+
+    <LinearLayout
+        android:id="@+id/edit_start_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        android:elevation="5dp"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/start_bt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/button_bg_green"
+            android:drawableStart="@drawable/baseline_play_arrow_35"
+            android:drawablePadding="5dp"
+            android:onClick="setAlarm"
+            android:paddingStart="5dp"
+            android:paddingEnd="15dp"
+            android:text="@string/start_bt"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/edit_bt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_bg_blue"
+            android:drawableStart="@drawable/pen"
+            android:drawablePadding="10dp"
+            android:onClick="setAlarm"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:text="@string/edit_bt"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/focus_marker_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/circle_red"
+        android:elevation="5dp"
+        android:onClick="focusMarker"
+        android:visibility="invisible"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        map:srcCompat="@drawable/baseline_location_pin_24"
+        map:tint="@color/white" />
+
+    <ImageButton
+        android:id="@+id/hint_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/circle_blue"
+        android:elevation="5dp"
+        android:onClick="showHints"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
+        map:srcCompat="@drawable/question_mark" />
+
+    <ImageButton
+        android:id="@+id/delete_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/circle_red"
+        android:visibility="invisible"
+        android:elevation="5dp"
+        android:onClick="deleteAlarm"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:srcCompat="@android:drawable/ic_menu_delete" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
