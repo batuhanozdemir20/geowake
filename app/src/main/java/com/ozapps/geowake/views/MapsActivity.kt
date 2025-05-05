@@ -379,6 +379,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
         val stopRl = popupView1.findViewById<RelativeLayout>(R.id.stop_hint_rl)
         val startRl = popupView1.findViewById<RelativeLayout>(R.id.start_hint_rl)
         val editRl = popupView1.findViewById<RelativeLayout>(R.id.edit_hint_rl)
+        val deleteRl = popupView1.findViewById<RelativeLayout>(R.id.delete_hint_rl)
         val okTv1 = popupView1.findViewById<TextView>(R.id.ok_tv)
         val okTv2 = popupView2.findViewById<TextView>(R.id.ok_tv_2)
 
@@ -388,6 +389,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                 stopRl.visibility = View.GONE
                 startRl.visibility = View.GONE
                 editRl.visibility = View.GONE
+                deleteRl.visibility = View.GONE
             }
             1 -> {
                 touchRl.visibility = View.GONE
@@ -397,6 +399,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                 touchRl.visibility = View.GONE
                 startRl.visibility = View.GONE
                 editRl.visibility = View.GONE
+                deleteRl.visibility = View.GONE
             }
         }
 

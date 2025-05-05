@@ -65,6 +65,7 @@
     <string name="popup_start">You can start the selected alarm with its default settings</string>
     <string name="popup_edit">You can edit the details of the selected alarm</string>
     <string name="popup_stop">You can turn off the alarm and cancel location tracking</string>
+    <string name="popup_delete">You can delete the alarm</string>
     <!--  Hint bsd  -->
     <string name="popup_name">You can name your chosen location</string>
     <string name="popup_distance">Specify how close you need to get before the alarm rings (in meters)</string>

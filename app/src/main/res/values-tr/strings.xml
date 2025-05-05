@@ -62,6 +62,7 @@
     <string name="popup_start">Seçtiğiniz alarmı hazır ayarlarıyla direkt çalıştırabilirsiniz</string>
     <string name="popup_edit">Seçtiğiniz alarmın bilgilerini düzenleyebilirsiniz</string>
     <string name="popup_stop">Alarmı kapatıp konum takibini iptal edebilirsiniz</string>
+    <string name="popup_delete">Alarmı silebilirsiniz</string>
     <!--  Hint bsd  -->
     <string name="popup_name">Seçtiğiniz konuma isim verebilirsiniz</string>
     <string name="popup_distance">Konuma ne kadar yaklaşınca alarm çalacağını belirtin (metre cinsinden)</string>

@@ -164,6 +164,33 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/delete_hint_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/delete_iv"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@android:drawable/ic_menu_delete"
+            android:background="@drawable/circle_red"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/popup_delete"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginStart="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/delete_iv"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/ok_tv"
         android:layout_width="wrap_content"
