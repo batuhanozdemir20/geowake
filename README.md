@@ -1,8 +1,7 @@
 # 📍 GeoWake
 
-GeoWake, konum tabanlı çalışan bir alarm uygulamasıdır.  
-Otobüste veya trende uyuyakalmaktan mı korkuyorsun? Artık değil!  
-GeoWake, belirlediğin konuma yaklaştığında seni uyarır.
+GeoWake, konum tabanlı çalışan bir alarm uygulamasıdır. Toplu taşıma yolculuklarında veya çeşitli seyahatlerde durak kaçırma endişesi duyan insanları hedef alır. Harita üzerinden seçtiğiniz konuma yaklaştığınız zaman sizi uyarır.
+Bir konum için alarm kurduğunuzda, uygulama kapansa bile arka planda hedefinize olan uzaklığınızı takip etmeye devam eder. Bu sayede telefon/tablette diğer işleri yürütebilme imkanı sunar. Bir konum, daha sonra tekrar kullanılmak üzere kaydedilebilir. Sade, kullanışlı arayüzüyle ve kullanıcıyı yönlendiren ipuçlarıyla tamamen kullanıcı dostu bir yapıya sahiptir. 
 
 ---
 
