@@ -166,7 +166,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                 }
                 ContextCompat.startForegroundService(this,serviceIntent)
 
-                //showInterstitialAdIfReady()
+                showInterstitialAdIfReady()
             }
     } // onCreate END
 
@@ -291,7 +291,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
 
         InterstitialAd.load(
             this,
-            getString(R.string.maps_activity_ad_interstitial_id_test),
+            getString(R.string.maps_activity_ad_interstitial_id),
             adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdLoaded(ad: InterstitialAd) {
@@ -307,12 +307,20 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
         )
     }
     private fun showInterstitialAdIfReady(){
-        if (mInterstitialAd != null){
-            mInterstitialAd?.show(this)
+        var adCounter = settingsPrefs.getInt("adCounter",0)
+        println("Ad Counter: $adCounter")
+        if (adCounter == 2){
+            if (mInterstitialAd != null){
+                mInterstitialAd?.show(this)
+            } else {
+                Log.d(TAG,"The interstitial ad wasn't ready yet.")
+                loadInterstitialAd()
+            }
+            adCounter = 0
         } else {
-            Log.d(TAG,"The interstitial ad wasn't ready yet.")
-            loadInterstitialAd()
+            adCounter++
         }
+        settingsPrefs.edit { putInt("adCounter", adCounter) }
     }
 
     fun deleteAlarm(view: View){

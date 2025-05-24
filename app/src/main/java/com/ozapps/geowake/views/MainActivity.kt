@@ -2,6 +2,7 @@ package com.ozapps.geowake.views
 
 import android.Manifest
 import android.app.ActivityManager
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -31,7 +32,6 @@ import com.ozapps.geowake.service.LocationTrackingService
 import com.ozapps.geowake.viewmodel.GeoWakeViewModel
 import androidx.core.net.toUri
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 
 class MainActivity : BaseActivity() {
@@ -94,7 +94,12 @@ class MainActivity : BaseActivity() {
             R.id.settings -> startActivity(Intent(this,SettingsActivity::class.java))
             R.id.about -> startActivity(Intent(this,AboutActivity::class.java))
             R.id.help -> startActivity(Intent(this,HelpActivity::class.java))
-            R.id.give_feedback -> startActivity(Intent(this,FeedbackActivity::class.java))
+            R.id.rate_me -> {
+                val goPlayStore = Intent(Intent.ACTION_VIEW, "https://play.google.com/store/apps/details?id=$packageName".toUri())
+                goPlayStore.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+                startActivity(goPlayStore)
+            }
+            //R.id.give_feedback -> startActivity(Intent(this,FeedbackActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
     }

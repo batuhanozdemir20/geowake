@@ -14,8 +14,8 @@ android {
         applicationId = "com.ozapps.geowake"
         minSdk = 23
         targetSdk = 35
-        versionCode = 14
-        versionName = "1.0.11 - beta"
+        versionCode = 17
+        versionName = "1.0.13.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -3,15 +3,20 @@
     <string name="app_name">GeoWake</string>
     <string name="title_activity_maps">Harita</string>
     <string name="geowake_logo_desc">geowake logo</string>
-    <string name="settings">Ayarlar</string>
-    <string name="about">Hakkında</string>
-    <string name="help">Yardım</string>
 
     <string name="ok">Tamam</string>
     <string name="yes">Evet</string>
     <string name="no">Hayır</string>
     <string name="stop">Durdur</string>
     <string name="delete">Sil</string>
+
+
+    <!-- MENU -->
+    <string name="settings">Ayarlar</string>
+    <string name="about">Hakkında</string>
+    <string name="help">Yardım</string>
+    <string name="rate_me">Değerlendirme</string>
+
 
     <!--  PERMISSION  -->
     <string name="permission_needed">İzin Gerekli!</string>
