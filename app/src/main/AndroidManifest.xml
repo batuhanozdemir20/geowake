@@ -42,6 +42,8 @@
         <activity
             android:name=".views.AlarmActivity"
             android:exported="false"
+            android:turnScreenOn="true"
+            android:showWhenLocked="true"
             android:launchMode="singleTask" />
 
         <service
