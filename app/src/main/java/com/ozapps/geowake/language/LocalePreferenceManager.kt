@@ -8,6 +8,21 @@ object LocalePreferenceManager {
 
     fun getLanguage(context: Context): String {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+
+        if (isFirstLaunch(prefs)) {
+            val deviceLanguage = getDeviceLanguage(context)
+
+            if (SUPPORTED_LANGUAGES.contains(deviceLanguage)) {
+                saveLanguage(prefs, deviceLanguage)
+                markAsNotFirstLaunch(prefs)
+                return deviceLanguage
+            } else {
+                saveLanguage(prefs, "en")
+                markAsNotFirstLaunch(prefs)
+                return "en"
+            }
+        }
+
         return prefs.getString(LANGUAGE_KEY, "en") ?: "en"
     }
 }
