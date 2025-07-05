@@ -21,7 +21,7 @@ Bir konum için alarm kurduğunuzda, uygulama kapansa bile arka planda hedefiniz
 
 Bu repoyu klonlayın:
 
-git clone https://github.com/kullanici-adin/GeoWake.git
+git clone https://github.com/batuhanozdemir20/GeoWake.git
 
 - Android Studio ile projeyi açın
 - Gereken izinleri ve bağımlılıkları kontrol edin
