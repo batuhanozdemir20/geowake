@@ -17,6 +17,10 @@ Bir konum için alarm kurduğunuzda, uygulama kapansa bile arka planda hedefiniz
 
 ---
 
+## Mağaza Linki
+
+[Play Store](https://play.google.com/store/apps/details?id=com.ozapps.geowake)
+
 ## 📦 Kurulum
 
 Bu repoyu klonlayın:
