@@ -56,6 +56,4 @@ Bu proje MIT Lisansı ile lisanslanmıştır.
 
 
 ### ➕ Notlar
-- Uygulama henüz test aşamasında olabilir.
-- Yakın zamanda Play Store yayını planlanmaktadır.
 - Geri bildirimlere açığım!
