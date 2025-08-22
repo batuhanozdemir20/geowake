@@ -25,7 +25,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
+            android:value="${ADMOB_APP_ID}"/>
 
         <activity
             android:name=".views.FeedbackActivity"
@@ -53,7 +53,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAUk34rVhUuC05Xdv5gYbwcinON1LFaIoA" />
+            android:value="${MAPS_API_KEY}" />
 
         <activity
             android:name=".views.MapsActivity"

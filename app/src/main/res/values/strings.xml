@@ -1,10 +1,6 @@
 <resources>
     <string name="app_name">GeoWake</string>
     <string name="app_version" translatable="false">v%s</string>
-    <string name="main_activity_ad_banner_id" translatable="false">ca-app-pub-4069362318810897/1534734052</string>
-    <string name="maps_activity_ad_interstitial_id" translatable="false">ca-app-pub-4069362318810897/4863415028</string>
-    <string name="main_activity_ad_banner_id_test" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="maps_activity_ad_interstitial_id_test" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
 
     <string name="title_activity_maps">Map</string>
     <string name="geowake_logo_desc">geowake logo</string>

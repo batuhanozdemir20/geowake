@@ -2,7 +2,6 @@ package com.ozapps.geowake.views
 
 import android.Manifest
 import android.app.ActivityManager
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
