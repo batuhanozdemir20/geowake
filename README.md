@@ -17,11 +17,15 @@ Bir konum için alarm kurduğunuzda, uygulama kapansa bile arka planda hedefiniz
 
 ---
 
+## Mağaza Linki
+
+[Play Store](https://play.google.com/store/apps/details?id=com.ozapps.geowake)
+
 ## 📦 Kurulum
 
 Bu repoyu klonlayın:
 
-git clone https://github.com/kullanici-adin/GeoWake.git
+git clone https://github.com/batuhanozdemir20/GeoWake.git
 
 - Android Studio ile projeyi açın
 - Gereken izinleri ve bağımlılıkları kontrol edin
@@ -56,6 +60,4 @@ Bu proje MIT Lisansı ile lisanslanmıştır.
 
 
 ### ➕ Notlar
-- Uygulama henüz test aşamasında olabilir.
-- Yakın zamanda Play Store yayını planlanmaktadır.
 - Geri bildirimlere açığım!
