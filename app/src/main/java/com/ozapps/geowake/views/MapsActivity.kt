@@ -54,11 +54,18 @@ import com.ozapps.geowake.roomdb.LocationAlarm
 import com.ozapps.geowake.service.LocationTrackingService
 import com.ozapps.geowake.viewmodel.GeoWakeViewModel
 import androidx.core.content.edit
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.gms.common.api.Status
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.ozapps.geowake.databinding.AlarmDetailsBinding
 
 class MapsActivity : BaseActivity(), OnMapReadyCallback {
 
@@ -95,6 +102,11 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -111,6 +123,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
         hint1 = settingsPrefs.getBoolean("hint",true)
         buttonEnterAnim = AnimationUtils.loadAnimation(this,R.anim.button_enter)
         buttonClickAnim = AnimationUtils.loadAnimation(this,R.anim.button_click)
+        searchPlace()
         /*
         new == 0 -> new alarm
         new == 1 -> saved alarm
@@ -285,6 +298,44 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
             }
         }
     }  // onMapReady END
+
+    private fun searchPlace() {
+        val autocompleteFragment = supportFragmentManager
+            .findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment
+        autocompleteFragment.setHint(getString(R.string.searchbar_hint))
+
+        autocompleteFragment.view?.visibility = View.GONE
+        if (new == 0) {
+            autocompleteFragment.view?.visibility = View.VISIBLE
+        }
+
+        autocompleteFragment.setPlaceFields(
+            listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS)
+        )
+
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(p0: Place) {
+                Log.i("AutocompleteFragment","Yer: ${p0.displayName}, Konum ${p0.location}")
+
+                p0.location?.let { location ->
+                    markerLatLng = location
+                    currentAlarm.latitude = location.latitude
+                    currentAlarm.longitude = location.longitude
+                    currentAlarm.locationName = p0.displayName
+
+                    mMap.clear()
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location,15f))
+                    mMap.addMarker(MarkerOptions().position(location).title(p0.displayName))
+                    binding.setAlarmBt.visibility = View.VISIBLE
+                    binding.setAlarmBt.startAnimation(buttonEnterAnim)
+                }
+            }
+
+            override fun onError(p0: Status) {
+                Log.e("AutocompleteFragment","Hata: $p0")
+            }
+        })
+    }
 
     private fun loadInterstitialAd() {
         val adRequest = AdRequest.Builder().build()
@@ -467,6 +518,8 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                 distanceET.setText(it.toString())
             }
             oneTimeSW.visibility = View.GONE
+        } else if (!currentAlarm.locationName.isNullOrEmpty()) {
+            locationNameET.setText(currentAlarm.locationName)
         }
 
         distanceET.addTextChangedListener {

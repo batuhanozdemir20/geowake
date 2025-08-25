@@ -32,6 +32,8 @@ import com.ozapps.geowake.viewmodel.GeoWakeViewModel
 import androidx.core.net.toUri
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
+import com.google.android.libraries.places.api.Places
+import com.ozapps.geowake.BuildConfig.MAPS_API_KEY
 
 class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -51,6 +53,7 @@ class MainActivity : BaseActivity() {
         }
         registerLauncher()
         checkPermissions()
+        initializePlaces()
 
         if (isServiceRunningInForeground(this, LocationTrackingService::class.java)){
             val activeAlarm = Intent(this,MapsActivity::class.java)
@@ -101,6 +104,12 @@ class MainActivity : BaseActivity() {
             //R.id.give_feedback -> startActivity(Intent(this,FeedbackActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun initializePlaces() {
+        if (!Places.isInitialized()) {
+            Places.initialize(applicationContext,MAPS_API_KEY)
+        }
     }
 
     private fun isServiceRunningInForeground(context: Context, serviceClass: Class<*>): Boolean {

@@ -9,13 +9,24 @@
     >
 
     <fragment
+        android:id="@+id/autocomplete_fragment"
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent" />
+
+    <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toTopOf="parent"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintTop_toBottomOf="@id/autocomplete_fragment"
         tools:context=".views.MapsActivity" />
 
     <Button
@@ -107,8 +118,8 @@
         android:elevation="5dp"
         android:onClick="focusMarker"
         android:visibility="invisible"
-        map:layout_constraintEnd_toEndOf="parent"
-        map:layout_constraintTop_toTopOf="parent"
+        map:layout_constraintEnd_toEndOf="@id/map"
+        map:layout_constraintTop_toTopOf="@id/map"
         map:srcCompat="@drawable/baseline_location_pin_24"
         map:tint="@color/white" />
 

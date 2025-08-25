@@ -44,6 +44,7 @@
     <string name="set_alarm_bt">alarm kur</string>
     <string name="edit_bt">düzenle</string>
     <string name="start_bt">başlat</string>
+    <string name="searchbar_hint">Bir mekan arayın</string>
     <!--  Maps Activity  -->
     <string name="open_location_title">Konum kapalı</string>
     <string name="open_location_message">Lütfen konumunuzu açın</string>
