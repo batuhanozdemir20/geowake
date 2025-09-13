@@ -28,18 +28,49 @@ import com.ozapps.geowake.adapter.AlarmAdapter
 import com.ozapps.geowake.databinding.ActivityMainBinding
 import com.ozapps.geowake.language.BaseActivity
 import com.ozapps.geowake.service.LocationTrackingService
-import com.ozapps.geowake.viewmodel.GeoWakeViewModel
 import androidx.core.net.toUri
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.libraries.places.api.Places
 import com.ozapps.geowake.BuildConfig.MAPS_API_KEY
+import com.ozapps.geowake.viewmodel.MainViewModel
 
 class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
-    private val viewModel : GeoWakeViewModel by viewModels()
+    private lateinit var alarmAdapter: AlarmAdapter
+    private val viewModel : MainViewModel by viewModels()
+
+    private val swipeCallBack = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            return true
+        }
+        override fun onSwiped(
+            viewHolder: RecyclerView.ViewHolder,
+            direction: Int
+        ) {
+            val layoutPosition = viewHolder.layoutPosition
+            val swipedAlarm = alarmAdapter.alarms[layoutPosition]
+            AlertDialog.Builder(this@MainActivity,R.style.alert_dialog_theme)
+                .setTitle(R.string.delete_alarm_title)
+                .setMessage(R.string.are_you_sure)
+                .setPositiveButton(R.string.yes) { _, _ ->
+                    viewModel.deleteAlarm(swipedAlarm)
+                }
+                .setNegativeButton(R.string.no,null)
+                .setOnDismissListener {
+                    alarmAdapter.notifyItemChanged(layoutPosition)
+                }
+                .show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,15 +92,16 @@ class MainActivity : BaseActivity() {
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(activeAlarm)
         }
-
-        val alarmAdapter = AlarmAdapter(arrayListOf(),application,this)
+        alarmAdapter = AlarmAdapter(this)
         binding.alarmsRv.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = alarmAdapter
         }
+        ItemTouchHelper(swipeCallBack).attachToRecyclerView(binding.alarmsRv)
 
         viewModel.alarmList.observe(this) { alarms ->
-            alarmAdapter.updateList(alarms)
+            //alarmAdapter.updateList(alarms)
+            alarmAdapter.alarms = alarms
             if (alarms.isEmpty()) { binding.noAlarmLl.visibility = View.VISIBLE }
         }
         viewModel.getAlarms()
@@ -101,7 +133,6 @@ class MainActivity : BaseActivity() {
                 goPlayStore.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
                 startActivity(goPlayStore)
             }
-            //R.id.give_feedback -> startActivity(Intent(this,FeedbackActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
     }

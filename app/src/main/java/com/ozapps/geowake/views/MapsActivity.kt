@@ -52,7 +52,6 @@ import com.ozapps.geowake.databinding.ActivityMapsBinding
 import com.ozapps.geowake.language.BaseActivity
 import com.ozapps.geowake.roomdb.LocationAlarm
 import com.ozapps.geowake.service.LocationTrackingService
-import com.ozapps.geowake.viewmodel.GeoWakeViewModel
 import androidx.core.content.edit
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -65,7 +64,7 @@ import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
-import com.ozapps.geowake.databinding.AlarmDetailsBinding
+import com.ozapps.geowake.viewmodel.MapsViewModel
 
 class MapsActivity : BaseActivity(), OnMapReadyCallback {
 
@@ -73,7 +72,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityMapsBinding
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
-    private val viewModel : GeoWakeViewModel by viewModels<GeoWakeViewModel>()
+    private val viewModel : MapsViewModel by viewModels()
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var serviceIntent: Intent
 

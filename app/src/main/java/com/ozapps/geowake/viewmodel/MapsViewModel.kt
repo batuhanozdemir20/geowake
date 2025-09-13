@@ -11,8 +11,7 @@ import com.ozapps.geowake.roomdb.LocationAlarmDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class GeoWakeViewModel(application: Application) : AndroidViewModel(application) {
-
+class MapsViewModel(application: Application) : AndroidViewModel(application) {
     private val db = Room.databaseBuilder(
         getApplication(),
         LocationAlarmDatabase::class.java,
@@ -20,19 +19,10 @@ class GeoWakeViewModel(application: Application) : AndroidViewModel(application)
     ).build()
     private val alarmDao = db.locationAlarmDao()
 
-    private val _alarmList = MutableLiveData<List<LocationAlarm>>()
-    val alarmList: LiveData<List<LocationAlarm>> = _alarmList
-
     private val _savedAlarm = MutableLiveData<LocationAlarm>()
     val savedAlarm: LiveData<LocationAlarm> = _savedAlarm
-
-
-    fun getAlarms(){
-        viewModelScope.launch(Dispatchers.IO) {
-            val alarms = alarmDao.getAlarms()
-            _alarmList.postValue(alarms)
-        }
-    }
+    private val _isAlarmActive = MutableLiveData<Boolean>()
+    val isAlarmActive: LiveData<Boolean> = _isAlarmActive
 
     fun getAlarmById(alarmId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -46,21 +36,19 @@ class GeoWakeViewModel(application: Application) : AndroidViewModel(application)
     fun saveAlarm(alarm: LocationAlarm) {
         viewModelScope.launch(Dispatchers.IO) {
             alarmDao.insert(alarm)
-            getAlarms()
         }
     }
 
     fun updateAlarm(alarm: LocationAlarm) {
         viewModelScope.launch(Dispatchers.IO) {
             alarmDao.update(alarm)
-            getAlarms()
         }
     }
 
     fun deleteAlarm(alarm: LocationAlarm) {
         viewModelScope.launch(Dispatchers.IO) {
             alarmDao.delete(alarm)
-            getAlarms()
         }
     }
+
 }

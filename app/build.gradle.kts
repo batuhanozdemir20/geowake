@@ -10,14 +10,14 @@ plugins {
 
 android {
     namespace = "com.ozapps.geowake"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.ozapps.geowake"
         minSdk = 23
-        targetSdk = 35
-        versionCode = 20
-        versionName = "1.0.13.4-alpha"
+        targetSdk = 36
+        versionCode = 21
+        versionName = "1.14.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -67,22 +67,17 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    val roomVersion = "2.7.1"
-    implementation("androidx.room:room-runtime:$roomVersion")
-    annotationProcessor("androidx.room:room-compiler:$roomVersion")
-    ksp("androidx.room:room-compiler:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1")
-    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.9.1")
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.9.1")
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.lifecycle.livedata.ktx)
+    implementation (libs.androidx.lifecycle.runtime.ktx)
 
-    implementation("com.google.android.gms:play-services-location:21.3.0")
-    implementation("com.google.android.gms:play-services-ads:24.3.0")
+    implementation(libs.play.services.location)
+    implementation(libs.play.services.ads)
 
-    implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
-    implementation("com.google.firebase:firebase-firestore-ktx:25.1.4")
-    implementation("com.google.firebase:firebase-analytics")
-
-    implementation("com.google.android.libraries.places:places:4.3.1")
+    implementation(libs.places)
 }
