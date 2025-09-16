@@ -40,6 +40,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     fun deleteAlarm(alarm: LocationAlarm) {
         viewModelScope.launch(Dispatchers.IO) {
             alarmDao.delete(alarm)
+            getAlarms()
         }
     }
 

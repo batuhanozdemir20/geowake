@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -12,6 +13,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -29,18 +31,21 @@ import com.ozapps.geowake.databinding.ActivityMainBinding
 import com.ozapps.geowake.language.BaseActivity
 import com.ozapps.geowake.service.LocationTrackingService
 import androidx.core.net.toUri
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.libraries.places.api.Places
 import com.ozapps.geowake.BuildConfig.MAPS_API_KEY
+import com.ozapps.geowake.roomdb.LocationAlarm
 import com.ozapps.geowake.viewmodel.MainViewModel
 
 class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
+    private lateinit var trackingPref: SharedPreferences
     private lateinit var alarmAdapter: AlarmAdapter
     private val viewModel : MainViewModel by viewModels()
 
@@ -62,7 +67,15 @@ class MainActivity : BaseActivity() {
                 .setTitle(R.string.delete_alarm_title)
                 .setMessage(R.string.are_you_sure)
                 .setPositiveButton(R.string.yes) { _, _ ->
-                    viewModel.deleteAlarm(swipedAlarm)
+                    if (!isServiceRunningInForeground(this@MainActivity, LocationTrackingService::class.java)) {
+                        viewModel.deleteAlarm(swipedAlarm)
+                        alarmAdapter.notifyItemChanged(layoutPosition)
+                    } else {
+                        AlertDialog.Builder(this@MainActivity,R.style.alert_dialog_theme)
+                            .setTitle(R.string.cant_delete)
+                            .setPositiveButton(getString(R.string.ok),null)
+                            .show()
+                    }
                 }
                 .setNegativeButton(R.string.no,null)
                 .setOnDismissListener {
@@ -86,11 +99,23 @@ class MainActivity : BaseActivity() {
         checkPermissions()
         initializePlaces()
 
+        trackingPref = getSharedPreferences("com.ozapps.geowake", MODE_PRIVATE)
+        val settingsPrefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val defaultDistance = settingsPrefs.getString("default_distance","500")!!.toInt()
+
         if (isServiceRunningInForeground(this, LocationTrackingService::class.java)){
-            val activeAlarm = Intent(this,MapsActivity::class.java)
-                .putExtra("new",2)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            startActivity(activeAlarm)
+            val trackingId = trackingPref.getInt("tracking_alarm_id",0)
+            if (trackingId == 0) {
+                binding.activeAlarmRl.visibility = View.VISIBLE
+                val alarmName = trackingPref.getString("tracking_alarm_name","")
+                val distance = trackingPref.getInt("tracking_alarm_distance",defaultDistance)
+                alarmName?.let {
+                    binding.activeAlarmNameTv.text = it.ifEmpty {
+                        getString(R.string.your_destination)
+                    }
+                }
+                binding.activeAlarmDistanceTv.text = "${distance}m"
+            }
         }
         alarmAdapter = AlarmAdapter(this)
         binding.alarmsRv.apply {
@@ -100,9 +125,10 @@ class MainActivity : BaseActivity() {
         ItemTouchHelper(swipeCallBack).attachToRecyclerView(binding.alarmsRv)
 
         viewModel.alarmList.observe(this) { alarms ->
-            //alarmAdapter.updateList(alarms)
             alarmAdapter.alarms = alarms
-            if (alarms.isEmpty()) { binding.noAlarmLl.visibility = View.VISIBLE }
+            if (alarms.isEmpty() && !isServiceRunningInForeground(this, LocationTrackingService::class.java)) {
+                binding.noAlarmLl.visibility = View.VISIBLE
+            }
         }
         viewModel.getAlarms()
 
@@ -116,6 +142,12 @@ class MainActivity : BaseActivity() {
         val addNewAlarm = Intent(this,MapsActivity::class.java)
             .putExtra("new",0)
         startActivity(addNewAlarm)
+    }
+    fun goToMap(view: View) {
+        view.startAnimation(AnimationUtils.loadAnimation(this,R.anim.button_click))
+        val goToMap = Intent(this, MapsActivity::class.java)
+            .putExtra("new",2)
+        startActivity(goToMap)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

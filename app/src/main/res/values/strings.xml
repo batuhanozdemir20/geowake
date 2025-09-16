@@ -33,11 +33,9 @@
 
     <!--  Main Activity  -->
     <string name="no_alarm">No Alarm</string>
-
-
-    <!--  Adapter  -->
     <string name="delete_alarm_title">This alarm will be deleted!</string>
     <string name="are_you_sure">Are you sure?</string>
+    <string name="cant_delete">This alarm is currently active. Please turn off before delete.</string>
 
 
     <!--  Maps Layout  -->
@@ -59,6 +57,9 @@
 
     <string name="reminder_title">Reminder</string>
     <string name="reminder_message">You need to control the alarm sound using your device\'s media volume</string>
+    <!-- alarm row -->
+    <string name="tracking">Tracking…</string>
+    <string name="your_destination">Your Destination</string>
 
 
     <!--  Hint  -->
@@ -91,6 +92,7 @@
     <!--  Foreground Service  -->
     <string name="geowake_running">GeoWake is running</string>
     <string name="tracking_location">Tracking your location…</string>
+    <string name="reached_destination">You reached the destination</string>
 
 
     <!--  SETTINGS LAYOUT  -->
@@ -159,18 +161,6 @@
     </string>
 
     <string name="notifications">Notifications</string>
-
-
-    <!-- Feedback Layout -->
-    <string name="give_feedback">Give Feedback</string>
-    <string name="write_feedback">Write your feedback here…</string>
-    <string name="submit">Submit</string>
-
-    <string name="thanks_feedback">Thanks for your feedback</string>
-    <string name="fail_feedback">Feedback could not be sent</string>
-    <string name="enter_feedback">Please enter your feedback</string>
-    <string name="internet_reminder_message">Please ensure you are connected to the internet</string>
-    <string name="sent_feedback">This feedback will be sent</string>
 
 
     <!--  Alarm Activity  -->

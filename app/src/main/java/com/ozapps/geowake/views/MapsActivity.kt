@@ -67,7 +67,6 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.ozapps.geowake.viewmodel.MapsViewModel
 
 class MapsActivity : BaseActivity(), OnMapReadyCallback {
-
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
@@ -109,7 +108,6 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.app_name)
 
         registerLauncher()
@@ -135,14 +133,14 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
         }
 
         when (new) {
-            0 -> { // yeni alarm
+            0 -> { // new alarm
                 currentAlarm = LocationAlarm(null,0.0,0.0,null)
             }
-            1 -> { // kayıtlı alarm
+            1 -> { // saved alarm
                 val id = intent.getIntExtra("alarm_id",0)
                 viewModel.getAlarmById(id)
             }
-            2 -> { // aktif alarm
+            2 -> { // active alarm
                 currentAlarm = LocationAlarm(
                     trackingPref.getString("tracking_alarm_name",null),
                     trackingPref.getFloat("tracking_alarm_latitude",0.0f).toDouble(),
@@ -159,16 +157,17 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
             .setMessage(R.string.alarm_will_set_title)
             .setPositiveButton(R.string.ok,null)
             .setOnDismissListener {
-                val reset = intent
-                    .putExtra("new",2)
+                finish()
+                val backToMain = Intent(this,MainActivity::class.java)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                startActivity(reset)
+                startActivity(backToMain)
                 Toast.makeText(this, R.string.alarm_is_set, Toast.LENGTH_LONG).show()
-                trackingPref.edit() {
+                trackingPref.edit {
                     putString("tracking_alarm_name", currentAlarm.locationName)
                     putFloat("tracking_alarm_latitude", currentAlarm.latitude.toFloat())
                     putFloat("tracking_alarm_longitude", currentAlarm.longitude.toFloat())
                     putInt("tracking_alarm_distance", currentAlarm.distance ?: defaultDistance)
+                    putInt("tracking_alarm_id", currentAlarm.id)
                 }
                 serviceIntent.apply {
                     putExtra("tracking_alarm_name",currentAlarm.locationName)
@@ -262,7 +261,6 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                 binding.alarmStopFab.startAnimation(buttonEnterAnim)
 
                 val firstAlarm = settingsPrefs.getBoolean("first_alarm",true)
-                println("first alarm: $firstAlarm")
                 if (firstAlarm){
                     handler.postDelayed({
                         AlertDialog.Builder(this)
@@ -279,11 +277,6 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
         }
         val hideTips = settingsPrefs.getBoolean("hide_tips",false)
         if (hideTips) { binding.hintIb.visibility = View.INVISIBLE }
-        /*
-        settingsPrefs.edit {
-            remove("first_alarm")
-            remove("hint")
-        }*/
 
         mMap.setOnMapLongClickListener { markedLocation ->
             if (new == 0) {
@@ -358,7 +351,6 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
     }
     private fun showInterstitialAdIfReady(){
         var adCounter = settingsPrefs.getInt("adCounter",0)
-        println("Ad Counter: $adCounter")
         if (adCounter == 2){
             if (mInterstitialAd != null){
                 mInterstitialAd?.show(this)
@@ -406,7 +398,9 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                 stopService(serviceIntent)
                 trackingPref.edit { clear() }
                 finish()
-                startActivity(Intent(this,MainActivity::class.java))
+                val backToMain = Intent(this,MainActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(backToMain)
             }.setNegativeButton(R.string.no, null)
             .show()
     }
@@ -511,7 +505,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker,14f),500,null)
         }
 
-        if (new == 1) {
+        if (new == 1) { // If the alarm is already saved.
             locationNameET.setText(currentAlarm.locationName)
             currentAlarm.distance?.let {
                 distanceET.setText(it.toString())
@@ -559,10 +553,11 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                 if (locationName.isEmpty()){
                     Toast.makeText(this,R.string.enter_location_name,Toast.LENGTH_LONG).show()
                     return@setOnClickListener
-                } else if (new == 1) {
+                } else if (new == 1) { // If the alarm is already saved, just update.
                     viewModel.updateAlarm(currentAlarm)
                 } else {
                     viewModel.saveAlarm(currentAlarm)
+                    viewModel.getLatestAlarm()
                 }
             }
 

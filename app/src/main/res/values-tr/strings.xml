@@ -33,11 +33,9 @@
 
     <!--  Main Activity  -->
     <string name="no_alarm">Alarm Yok</string>
-
-
-    <!--  Adapter  -->
     <string name="delete_alarm_title">Alarm silinecek!</string>
     <string name="are_you_sure">Emin misiniz?</string>
+    <string name="cant_delete">Bu alarm şu anda aktif. Lütfen silmeden önce kapatın.</string>
 
 
     <!--  Maps Layout  -->
@@ -59,6 +57,9 @@
 
     <string name="reminder_title">Hatırlatma</string>
     <string name="reminder_message">Alarm sesini cihazın medya sesinden kontrol etmeniz gerekir</string>
+    <!-- alarm row -->
+    <string name="tracking">Çalışıyor…</string>
+    <string name="your_destination">Hedefiniz</string>
 
 
     <!--  Hint  -->
@@ -91,6 +92,7 @@
     <!--  Foreground Service  -->
     <string name="geowake_running">GeoWake çalışıyor</string>
     <string name="tracking_location">Konumunuzu izliyor…</string>
+    <string name="reached_destination">Hedefe vardın</string>
 
 
     <!--  SETTINGS LAYOUT  -->
@@ -159,18 +161,6 @@
     </string>
 
     <string name="notifications">Bildirimler</string>
-
-
-    <!-- Feedback Layout -->
-    <string name="give_feedback">Geri bildirim</string>
-    <string name="write_feedback">Geri bildiriminizi buraya yazın…</string>
-    <string name="submit">Gönder</string>
-
-    <string name="thanks_feedback">Geri bildirim için teşekkürler</string>
-    <string name="fail_feedback">Geri bildirim gönderilemedi</string>
-    <string name="enter_feedback">Lütfen bir geri bildirim girin</string>
-    <string name="internet_reminder_message">Lütfen internete bağlı olduğunuzdan emin olun</string>
-    <string name="sent_feedback">Geri bildirim gönderilecek</string>
 
 
     <!--  Alarm Activity  -->

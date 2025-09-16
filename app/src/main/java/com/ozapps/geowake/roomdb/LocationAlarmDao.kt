@@ -22,4 +22,7 @@ interface LocationAlarmDao {
 
     @Query("SELECT * FROM locationalarm WHERE id = :id")
     fun getAlarmById(id: Int): LocationAlarm?
+
+    @Query("SELECT * FROM locationalarm ORDER BY id DESC LIMIT 1")
+    fun getLatestAlarm(): LocationAlarm
 }

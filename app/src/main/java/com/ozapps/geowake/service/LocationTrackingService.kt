@@ -66,7 +66,7 @@ class LocationTrackingService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         currentAlarm.apply {
             locationName = intent?.getStringExtra("tracking_alarm_name")
-            latitude = intent?.getDoubleExtra("tracking_alarm_latitude",0.0)!!.toDouble()
+            latitude = intent?.getDoubleExtra("tracking_alarm_latitude",0.0)!!
             longitude = intent.getDoubleExtra("tracking_alarm_longitude",0.0)
             distance = intent.getIntExtra("tracking_alarm_distance",defaultDistance)
         }
@@ -155,7 +155,7 @@ class LocationTrackingService : Service() {
 
         alarmNotification = NotificationCompat.Builder(this,"alarm_channel")
             .setContentTitle(getString(R.string.title_alarm))
-            .setContentText("HEDEFE VARDIN")
+            .setContentText(getString(R.string.reached_destination))
             .setSmallIcon(R.drawable.geowake_icon)
             .setContentIntent(alarmNotificationPI)
             .setPriority(Notification.PRIORITY_HIGH)

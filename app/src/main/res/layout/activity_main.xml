@@ -8,18 +8,88 @@
     android:layout_height="match_parent"
     tools:context=".views.MainActivity">
 
+    <RelativeLayout
+        android:id="@+id/active_alarm_rl"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/active_alarm_row_bg"
+        android:layout_margin="15dp"
+        android:visibility="gone"
+        android:onClick="goToMap"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:id="@+id/active_alarm_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/your_destination"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:id="@+id/active_alarm_distance_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="20sp"
+                android:textStyle="normal"
+                android:textColor="@color/white"
+                android:layout_marginStart="10dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:layout_marginEnd="10dp">
+
+            <ImageView
+                android:id="@+id/active_alarm_iv"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/distance_icon"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tracking"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/alarms_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/active_alarm_rl" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_alarm_fab"

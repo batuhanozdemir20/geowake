@@ -53,8 +53,7 @@
         <activity
             android:name=".views.MapsActivity"
             android:exported="false"
-            android:label="@string/title_activity_maps"
-            android:parentActivityName=".views.MainActivity" />
+            android:label="@string/title_activity_maps"/>
         <activity
             android:name=".views.SettingsActivity"
             android:exported="false"

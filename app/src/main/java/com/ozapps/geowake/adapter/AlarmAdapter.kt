@@ -2,8 +2,10 @@ package com.ozapps.geowake.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.preference.PreferenceManager
@@ -22,6 +24,7 @@ class AlarmAdapter(
     class AlarmHolder(val binding: AlarmRowBinding): ViewHolder(binding.root)
 
     private val settingsPref = PreferenceManager.getDefaultSharedPreferences(context)
+    private val trackingPref = context.getSharedPreferences("com.ozapps.geowake", MODE_PRIVATE)
 
     private val diffUtil = object: DiffUtil.ItemCallback<LocationAlarm>() {
         override fun areItemsTheSame(
@@ -57,11 +60,21 @@ class AlarmAdapter(
         holder.binding.alarmNameTv.text = alarm.locationName
         holder.binding.alarmDistanceTv.text = (alarm.distance ?: defaultDistance).toString() + "m"
 
+        var new = 1
+
+        val trackingAlarmID = trackingPref.getInt("tracking_alarm_id",0)
+        if (trackingAlarmID == alarm.id) {
+            holder.binding.iconIv.setImageResource(R.drawable.distance_icon)
+            holder.binding.trackingTv.visibility = View.VISIBLE
+            holder.itemView.setBackgroundResource(R.drawable.active_alarm_row_bg)
+            new = 2
+        }
+
         holder.itemView.setOnClickListener {
             it.startAnimation(AnimationUtils.loadAnimation(context,R.anim.button_click))
             val chooseAlarm = Intent(it.context, MapsActivity::class.java).apply {
                 putExtra("alarm_id",alarm.id)
-                putExtra("new",1)
+                putExtra("new",new)
             }
             it.context.startActivity(chooseAlarm)
         }

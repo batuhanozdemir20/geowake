@@ -9,6 +9,7 @@ import androidx.room.Room
 import com.ozapps.geowake.roomdb.LocationAlarm
 import com.ozapps.geowake.roomdb.LocationAlarmDatabase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MapsViewModel(application: Application) : AndroidViewModel(application) {
@@ -30,6 +31,14 @@ class MapsViewModel(application: Application) : AndroidViewModel(application) {
             alarm?.let {
                 _savedAlarm.postValue(it)
             }?: println("the alarm not found")
+        }
+    }
+
+    fun getLatestAlarm() {
+        viewModelScope.launch(Dispatchers.IO) {
+            delay(500)
+            val alarm = alarmDao.getLatestAlarm()
+            _savedAlarm.postValue(alarm)
         }
     }
 
