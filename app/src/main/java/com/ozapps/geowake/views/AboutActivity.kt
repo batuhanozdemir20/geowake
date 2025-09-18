@@ -1,6 +1,5 @@
 package com.ozapps.geowake.views
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -11,7 +10,7 @@ import com.ozapps.geowake.R
 import com.ozapps.geowake.language.BaseActivity
 
 class AboutActivity : BaseActivity() {
-    @SuppressLint("MissingInflatedId")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

@@ -12,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application): AndroidViewModel(application) {
-
     private val db = Room.databaseBuilder(
         getApplication(),
         LocationAlarmDatabase::class.java,
@@ -23,7 +22,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val _alarmList = MutableLiveData<List<LocationAlarm>>()
     val alarmList: LiveData<List<LocationAlarm>> = _alarmList
 
-    private val _isAlarmActive = MutableLiveData<Boolean>()
+    private val _isAlarmActive = MutableLiveData(false)
     val isAlarmActive: LiveData<Boolean> = _isAlarmActive
 
     init {
@@ -42,6 +41,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             alarmDao.delete(alarm)
             getAlarms()
         }
+    }
+
+    fun changeActiveAlarm(isActive: Boolean) {
+        _isAlarmActive.postValue(isActive)
     }
 
 }

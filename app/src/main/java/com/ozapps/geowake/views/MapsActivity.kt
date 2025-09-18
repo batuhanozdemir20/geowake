@@ -72,7 +72,6 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
     private val viewModel : MapsViewModel by viewModels()
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var serviceIntent: Intent
 
     private lateinit var trackingPref: SharedPreferences
@@ -111,7 +110,6 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
         supportActionBar?.setTitle(R.string.app_name)
 
         registerLauncher()
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         serviceIntent = Intent(this, LocationTrackingService::class.java)
         trackingPref = getSharedPreferences("com.ozapps.geowake", MODE_PRIVATE)
         settingsPrefs = PreferenceManager.getDefaultSharedPreferences(this)
@@ -121,11 +119,6 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
         buttonEnterAnim = AnimationUtils.loadAnimation(this,R.anim.button_enter)
         buttonClickAnim = AnimationUtils.loadAnimation(this,R.anim.button_click)
         searchPlace()
-        /*
-        new == 0 -> new alarm
-        new == 1 -> saved alarm
-        new == 2 -> active alarm
-        */
 
         viewModel.savedAlarm.observe(this){ alarm ->
             currentAlarm = alarm
@@ -195,14 +188,6 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                     startActivity(goLocationServices)
                 }.show()
         }
-        /*
-        else {
-            fusedLocationProviderClient.lastLocation.addOnSuccessListener { lastLocation ->
-                val lastLocationLatLng = LatLng(lastLocation.latitude,lastLocation.longitude)
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastLocationLatLng,15f))
-            }
-        }
-        */
         checkPermissions {
             mMap.uiSettings.setAllGesturesEnabled(true)
             mMap.isMyLocationEnabled = true

@@ -99,7 +99,7 @@
         android:clickable="true"
         android:contentDescription="add new alarm"
         android:focusable="true"
-        android:onClick="addNewAlarm"
+        android:onClick="goToMap"
         android:src="@drawable/plus"
         app:backgroundTint="@color/blue"
         app:layout_constraintBottom_toTopOf="@+id/adView"

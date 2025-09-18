@@ -31,14 +31,12 @@ import com.ozapps.geowake.databinding.ActivityMainBinding
 import com.ozapps.geowake.language.BaseActivity
 import com.ozapps.geowake.service.LocationTrackingService
 import androidx.core.net.toUri
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.libraries.places.api.Places
 import com.ozapps.geowake.BuildConfig.MAPS_API_KEY
-import com.ozapps.geowake.roomdb.LocationAlarm
 import com.ozapps.geowake.viewmodel.MainViewModel
 
 class MainActivity : BaseActivity() {
@@ -48,6 +46,9 @@ class MainActivity : BaseActivity() {
     private lateinit var trackingPref: SharedPreferences
     private lateinit var alarmAdapter: AlarmAdapter
     private val viewModel : MainViewModel by viewModels()
+
+    private var trackingID = 0
+    private var isAnAlarmActive = false
 
     private val swipeCallBack = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
         override fun onMove(
@@ -67,14 +68,14 @@ class MainActivity : BaseActivity() {
                 .setTitle(R.string.delete_alarm_title)
                 .setMessage(R.string.are_you_sure)
                 .setPositiveButton(R.string.yes) { _, _ ->
-                    if (!isServiceRunningInForeground(this@MainActivity, LocationTrackingService::class.java)) {
-                        viewModel.deleteAlarm(swipedAlarm)
-                        alarmAdapter.notifyItemChanged(layoutPosition)
-                    } else {
+                    if (isAnAlarmActive && swipedAlarm.id == trackingID) {
                         AlertDialog.Builder(this@MainActivity,R.style.alert_dialog_theme)
                             .setTitle(R.string.cant_delete)
                             .setPositiveButton(getString(R.string.ok),null)
                             .show()
+                    } else {
+                        viewModel.deleteAlarm(swipedAlarm)
+                        alarmAdapter.notifyItemChanged(layoutPosition)
                     }
                 }
                 .setNegativeButton(R.string.no,null)
@@ -87,7 +88,6 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -98,55 +98,58 @@ class MainActivity : BaseActivity() {
         registerLauncher()
         checkPermissions()
         initializePlaces()
+        isServiceRunningInForeground(this, LocationTrackingService::class.java)
 
         trackingPref = getSharedPreferences("com.ozapps.geowake", MODE_PRIVATE)
-        val settingsPrefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val defaultDistance = settingsPrefs.getString("default_distance","500")!!.toInt()
+        trackingID = trackingPref.getInt("tracking_alarm_id",0)
 
-        if (isServiceRunningInForeground(this, LocationTrackingService::class.java)){
-            val trackingId = trackingPref.getInt("tracking_alarm_id",0)
-            if (trackingId == 0) {
-                binding.activeAlarmRl.visibility = View.VISIBLE
-                val alarmName = trackingPref.getString("tracking_alarm_name","")
-                val distance = trackingPref.getInt("tracking_alarm_distance",defaultDistance)
-                alarmName?.let {
-                    binding.activeAlarmNameTv.text = it.ifEmpty {
-                        getString(R.string.your_destination)
-                    }
-                }
-                binding.activeAlarmDistanceTv.text = "${distance}m"
-            }
-        }
         alarmAdapter = AlarmAdapter(this)
-        binding.alarmsRv.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = alarmAdapter
-        }
+        binding.alarmsRv.layoutManager = LinearLayoutManager(this@MainActivity)
+        binding.alarmsRv.adapter = alarmAdapter
+
         ItemTouchHelper(swipeCallBack).attachToRecyclerView(binding.alarmsRv)
 
-        viewModel.alarmList.observe(this) { alarms ->
-            alarmAdapter.alarms = alarms
-            if (alarms.isEmpty() && !isServiceRunningInForeground(this, LocationTrackingService::class.java)) {
-                binding.noAlarmLl.visibility = View.VISIBLE
-            }
-        }
-        viewModel.getAlarms()
-
+        subscribeToObservers()
 
         MobileAds.initialize(this)
         val adRequest = AdRequest.Builder().build()
         binding.adView.loadAd(adRequest)
     }
 
-    fun addNewAlarm(view: View) {
-        val addNewAlarm = Intent(this,MapsActivity::class.java)
-            .putExtra("new",0)
-        startActivity(addNewAlarm)
+    private fun subscribeToObservers(){
+        viewModel.alarmList.observe(this) { alarms ->
+            alarmAdapter.alarms = alarms
+            if (alarms.isEmpty() && !isAnAlarmActive) { // Show no alarm image
+                binding.noAlarmLl.visibility = View.VISIBLE
+            }
+        }
+        viewModel.isAlarmActive.observe(this) { isActive ->
+            isAnAlarmActive = isActive
+            if (isActive && trackingID == 0) { // Show unsaved alarm
+                binding.activeAlarmRl.visibility = View.VISIBLE
+                val alarmName = trackingPref.getString("tracking_alarm_name","")
+                val distance = trackingPref.getInt("tracking_alarm_distance",500)
+                alarmName?.let {
+                    binding.activeAlarmNameTv.text = it.ifEmpty {
+                        getString(R.string.your_destination)
+                    }
+                }
+                binding.activeAlarmDistanceTv.text = "${distance}m"
+            } else {
+                binding.activeAlarmRl.visibility = View.GONE
+            }
+        }
     }
+
     fun goToMap(view: View) {
-        view.startAnimation(AnimationUtils.loadAnimation(this,R.anim.button_click))
+        val new = when(view.id) {
+            R.id.add_alarm_fab -> 0
+            R.id.active_alarm_rl -> 2
+            else -> 1
+        }
         val goToMap = Intent(this, MapsActivity::class.java)
-            .putExtra("new",2)
+            .putExtra("new",new)
+        view.startAnimation(AnimationUtils.loadAnimation(this,R.anim.button_click))
         startActivity(goToMap)
     }
 
@@ -169,22 +172,19 @@ class MainActivity : BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun isServiceRunningInForeground(context: Context, serviceClass: Class<*>) {
+        val manager = context.getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        for (service in manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.name == service.service.className){
+                viewModel.changeActiveAlarm(true)
+            }
+        }
+    }
     private fun initializePlaces() {
         if (!Places.isInitialized()) {
             Places.initialize(applicationContext,MAPS_API_KEY)
         }
     }
-
-    private fun isServiceRunningInForeground(context: Context, serviceClass: Class<*>): Boolean {
-        val manager = context.getSystemService(ACTIVITY_SERVICE) as ActivityManager
-        for (service in manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.name == service.service.className){
-                return service.foreground
-            }
-        }
-        return false
-    }
-
     private fun checkPermissions(){
         if (ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)){
@@ -195,10 +195,7 @@ class MainActivity : BaseActivity() {
             } else {
                 permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION) //request permission
             }
-        } else if (
-            ContextCompat.checkSelfPermission(this,Manifest.permission.POST_NOTIFICATIONS)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
+        } else if (ContextCompat.checkSelfPermission(this,Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.POST_NOTIFICATIONS)){
                     Snackbar.make(

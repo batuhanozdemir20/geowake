@@ -3,7 +3,6 @@ package com.ozapps.geowake.views
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.media.RingtoneManager
 import android.os.Build
@@ -18,7 +17,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.preference.PreferenceManager
 import com.ozapps.geowake.R
 import com.ozapps.geowake.databinding.ActivityAlarmBinding
-import com.ozapps.geowake.databinding.ActivityMainBinding
 import com.ozapps.geowake.language.BaseActivity
 import com.ozapps.geowake.service.LocationTrackingService
 
@@ -28,7 +26,6 @@ class AlarmActivity : BaseActivity() {
     private lateinit var vibrator: Vibrator
     private lateinit var serviceIntent: Intent
 
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAlarmBinding.inflate(layoutInflater)
