@@ -1,8 +1,6 @@
 package com.ozapps.geowake.views
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.media.MediaPlayer
 import android.media.RingtoneManager
 import android.os.Build
@@ -18,13 +16,11 @@ import androidx.preference.PreferenceManager
 import com.ozapps.geowake.R
 import com.ozapps.geowake.databinding.ActivityAlarmBinding
 import com.ozapps.geowake.language.BaseActivity
-import com.ozapps.geowake.service.LocationTrackingService
 
 class AlarmActivity : BaseActivity() {
     private lateinit var binding: ActivityAlarmBinding
     private lateinit var mediaPlayer: MediaPlayer
     private lateinit var vibrator: Vibrator
-    private lateinit var serviceIntent: Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +35,7 @@ class AlarmActivity : BaseActivity() {
         supportActionBar?.hide()
 
         val locationName = intent.getStringExtra("location_name")
-        val distance = intent.getIntExtra("distance",200)
+        val distance = intent.getIntExtra("distance",500)
 
         val silentMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("silent",false)
 
@@ -57,21 +53,17 @@ class AlarmActivity : BaseActivity() {
             println("This device does not a vibration motor")
         }
 
-        serviceIntent = Intent(this, LocationTrackingService::class.java)
-
-        val left = getString(R.string.left)
         binding.alarmMessage.text = locationName
-        binding.distanceMessage.text = distance.toString() + "m " + left
+        binding.distanceTv.text = distance.toString()
     }
 
-    fun stopAlarm(view: View){
+    fun stopTheAlarm(view: View){
         view.startAnimation(AnimationUtils.loadAnimation(this,R.anim.button_click))
         if (mediaPlayer.isPlaying){
             mediaPlayer.stop()
             mediaPlayer.release()
         }
         vibrator.cancel()
-        stopService(serviceIntent)
         finish()
     }
 }

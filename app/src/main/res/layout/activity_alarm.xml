@@ -5,9 +5,10 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#404C55"
+    android:background="#313132"
     android:orientation="vertical"
-    tools:context=".views.AlarmActivity">
+    tools:context=".views.AlarmActivity"
+    android:gravity="center">
 
     <TextView
         android:id="@+id/alarm_message"
@@ -21,36 +22,55 @@
         android:textSize="40sp"
         android:textStyle="bold" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="314dp"
-        android:src="@drawable/alarm_image"
-        android:layout_gravity="center"/>
-
-    <TextView
-        android:id="@+id/distance_message"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:padding="16dp"
-        android:text="200m left"
-        android:textColor="#FFFFFF"
-        android:textSize="40sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:layout_marginVertical="40dp"
+        android:padding="16dp">
+        <TextView
+            android:id="@+id/distance_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="500"
+            android:textColor="#FFFFFF"
+            android:textSize="70sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/distance_type_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="m"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginStart="5dp"/>
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/stop_alarm_button"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_gravity="center"
-        android:background="@drawable/alarm_stop_bt_bg"
-        android:onClick="stopAlarm"
-        android:paddingHorizontal="35dp"
-        android:text="@string/stop"
-        android:textStyle="bold"
-        android:textSize="24sp"
-        android:textColor="@color/black"/>
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/stop_alarm_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/stop_button"
+            android:onClick="stopTheAlarm"
+            android:layout_marginTop="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stop"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
+
 
 </LinearLayout>

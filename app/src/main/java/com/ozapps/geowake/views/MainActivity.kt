@@ -142,13 +142,13 @@ class MainActivity : BaseActivity() {
     }
 
     fun goToMap(view: View) {
-        val new = when(view.id) {
+        val state = when(view.id) {
             R.id.add_alarm_fab -> 0
             R.id.active_alarm_rl -> 2
             else -> 1
         }
         val goToMap = Intent(this, MapsActivity::class.java)
-            .putExtra("new",new)
+            .putExtra("state",state)
         view.startAnimation(AnimationUtils.loadAnimation(this,R.anim.button_click))
         startActivity(goToMap)
     }

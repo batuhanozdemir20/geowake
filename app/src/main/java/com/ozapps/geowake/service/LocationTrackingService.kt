@@ -131,7 +131,7 @@ class LocationTrackingService : Service() {
 
 
         val serviceIntent = Intent(this, MapsActivity::class.java)
-            .putExtra("new",2)
+            .putExtra("state",2)
         val servicePI = PendingIntent.getActivity(
             this,
             1,

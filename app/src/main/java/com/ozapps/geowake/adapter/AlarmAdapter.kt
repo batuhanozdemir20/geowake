@@ -60,21 +60,21 @@ class AlarmAdapter(
         holder.binding.alarmNameTv.text = alarm.locationName
         holder.binding.alarmDistanceTv.text = (alarm.distance ?: defaultDistance).toString() + "m"
 
-        var new = 1
+        var state = 1
 
         val trackingAlarmID = trackingPref.getInt("tracking_alarm_id",0)
         if (trackingAlarmID == alarm.id) {
             holder.binding.iconIv.setImageResource(R.drawable.distance_icon)
             holder.binding.trackingTv.visibility = View.VISIBLE
             holder.itemView.setBackgroundResource(R.drawable.active_alarm_row_bg)
-            new = 2
+            state = 2
         }
 
         holder.itemView.setOnClickListener {
             it.startAnimation(AnimationUtils.loadAnimation(context,R.anim.button_click))
             val chooseAlarm = Intent(it.context, MapsActivity::class.java).apply {
                 putExtra("alarm_id",alarm.id)
-                putExtra("new",new)
+                putExtra("state",state)
             }
             it.context.startActivity(chooseAlarm)
         }

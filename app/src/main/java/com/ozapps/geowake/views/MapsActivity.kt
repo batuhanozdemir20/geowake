@@ -34,8 +34,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -64,6 +62,7 @@ import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.ozapps.geowake.Util.AlarmState
 import com.ozapps.geowake.viewmodel.MapsViewModel
 
 class MapsActivity : BaseActivity(), OnMapReadyCallback {
@@ -80,7 +79,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
     private lateinit var currentAlarm: LocationAlarm
     private var markerLatLng = LatLng(0.0,0.0)
     private var defaultDistance = 100
-    private var new = 0
+    private var state = 0
 
     private var handler = Handler(Looper.getMainLooper())
     private var hint1 = true
@@ -114,35 +113,40 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
         trackingPref = getSharedPreferences("com.ozapps.geowake", MODE_PRIVATE)
         settingsPrefs = PreferenceManager.getDefaultSharedPreferences(this)
         defaultDistance = settingsPrefs.getString("default_distance","500")!!.toInt()
-        new = intent.getIntExtra("new",0)
+        state = intent.getIntExtra("state",0)
         hint1 = settingsPrefs.getBoolean("hint",true)
         buttonEnterAnim = AnimationUtils.loadAnimation(this,R.anim.button_enter)
         buttonClickAnim = AnimationUtils.loadAnimation(this,R.anim.button_click)
         searchPlace()
 
-        viewModel.savedAlarm.observe(this){ alarm ->
+        viewModel.alarm.observe(this){ alarm ->
             currentAlarm = alarm
             markerLatLng = LatLng(currentAlarm.latitude,currentAlarm.longitude)
+            println("Current Alarm: $currentAlarm")
         }
 
-        when (new) {
-            0 -> { // new alarm
-                currentAlarm = LocationAlarm(null,0.0,0.0,null)
-            }
-            1 -> { // saved alarm
-                val id = intent.getIntExtra("alarm_id",0)
-                viewModel.getAlarmById(id)
-            }
-            2 -> { // active alarm
-                currentAlarm = LocationAlarm(
-                    trackingPref.getString("tracking_alarm_name",null),
-                    trackingPref.getFloat("tracking_alarm_latitude",0.0f).toDouble(),
-                    trackingPref.getFloat("tracking_alarm_longitude",0.0f).toDouble(),
-                    trackingPref.getInt("tracking_alarm_distance",defaultDistance)
-                )
-                markerLatLng = LatLng(currentAlarm.latitude,currentAlarm.longitude)
+        viewModel.state.observe(this) { state ->
+            when(state) {
+                AlarmState.NEW -> {
+                    viewModel.setCurrentAlarm(LocationAlarm(null,0.0,0.0,null))
+                }
+                AlarmState.SAVED -> {
+                    val id = intent.getIntExtra("alarm_id",0)
+                    viewModel.getAlarmById(id)
+                }
+                AlarmState.ACTIVE -> {
+                    val trackedAlarm = LocationAlarm(
+                        trackingPref.getString("tracking_alarm_name",null),
+                        trackingPref.getFloat("tracking_alarm_latitude",0.0f).toDouble(),
+                        trackingPref.getFloat("tracking_alarm_longitude",0.0f).toDouble(),
+                        trackingPref.getInt("tracking_alarm_distance",defaultDistance)
+                    )
+                    viewModel.setCurrentAlarm(trackedAlarm)
+                }
             }
         }
+
+        viewModel.setStateFromIntent(state)
 
         loadInterstitialAd()
 
@@ -198,8 +202,8 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
             }
         }
 
-        when (new) {
-            0 -> { // new alarm
+        when (viewModel.state.value) {
+            AlarmState.NEW -> { // new alarm
                 mMap.uiSettings.isMapToolbarEnabled = false
                 mMap.clear()
                 binding.apply {
@@ -209,8 +213,8 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                     focusMarkerIb.visibility = View.GONE
                 }
             }
-            1 -> { // saved alarm
-                viewModel.savedAlarm.observe(this){
+            AlarmState.SAVED -> { // saved alarm
+                viewModel.alarm.observe(this){
                     binding.apply {
                         editStartButtons.visibility = View.VISIBLE
                         focusMarkerIb.visibility = View.VISIBLE
@@ -230,7 +234,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                 binding.editStartButtons.startAnimation(buttonEnterAnim)
                 binding.deleteIb.startAnimation(buttonEnterAnim)
             }
-            2 -> { // active alarm
+            AlarmState.ACTIVE -> { // active alarm
                 binding.alarmStopFab.visibility = View.VISIBLE
                 binding.focusMarkerIb.visibility = View.VISIBLE
                 mMap.addMarker(MarkerOptions().position(markerLatLng).title(currentAlarm.locationName))
@@ -259,12 +263,13 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                     },1500)
                 }
             }
+            else -> Log.e("AlarmStateInMaps","State is null")
         }
         val hideTips = settingsPrefs.getBoolean("hide_tips",false)
         if (hideTips) { binding.hintIb.visibility = View.INVISIBLE }
 
         mMap.setOnMapLongClickListener { markedLocation ->
-            if (new == 0) {
+            if (viewModel.state.value == AlarmState.NEW) {
                 markerLatLng = markedLocation
                 currentAlarm.latitude = markerLatLng.latitude
                 currentAlarm.longitude = markerLatLng.longitude
@@ -282,7 +287,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
         autocompleteFragment.setHint(getString(R.string.searchbar_hint))
 
         autocompleteFragment.view?.visibility = View.GONE
-        if (new == 0) {
+        if (viewModel.state.value == AlarmState.NEW) {
             autocompleteFragment.view?.visibility = View.VISIBLE
         }
 
@@ -420,24 +425,25 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
         val okTv1 = popupView1.findViewById<TextView>(R.id.ok_tv)
         val okTv2 = popupView2.findViewById<TextView>(R.id.ok_tv_2)
 
-        when (new) {
-            0 -> {
+        when (viewModel.state.value) {
+            AlarmState.NEW -> {
                 markerRl.visibility = View.GONE
                 stopRl.visibility = View.GONE
                 startRl.visibility = View.GONE
                 editRl.visibility = View.GONE
                 deleteRl.visibility = View.GONE
             }
-            1 -> {
+            AlarmState.SAVED -> {
                 touchRl.visibility = View.GONE
                 stopRl.visibility = View.GONE
             }
-            2 -> {
+            AlarmState.ACTIVE -> {
                 touchRl.visibility = View.GONE
                 startRl.visibility = View.GONE
                 editRl.visibility = View.GONE
                 deleteRl.visibility = View.GONE
             }
+            else -> Log.e("AlarmStateInMaps","State is null")
         }
 
         var popupWindow = PopupWindow(popupView1,width, height, focusable)
@@ -490,7 +496,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker,14f),500,null)
         }
 
-        if (new == 1) { // If the alarm is already saved.
+        if (viewModel.state.value == AlarmState.SAVED) { // If the alarm is already saved.
             locationNameET.setText(currentAlarm.locationName)
             currentAlarm.distance?.let {
                 distanceET.setText(it.toString())
@@ -538,7 +544,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                 if (locationName.isEmpty()){
                     Toast.makeText(this,R.string.enter_location_name,Toast.LENGTH_LONG).show()
                     return@setOnClickListener
-                } else if (new == 1) { // If the alarm is already saved, just update.
+                } else if (viewModel.state.value == AlarmState.SAVED) { // If the alarm is already saved, just update.
                     viewModel.updateAlarm(currentAlarm)
                 } else {
                     viewModel.saveAlarm(currentAlarm)
