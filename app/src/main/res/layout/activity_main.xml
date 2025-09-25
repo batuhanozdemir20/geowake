@@ -14,7 +14,7 @@
         android:layout_height="0dp"
         android:background="@drawable/active_alarm_row_bg"
         android:layout_margin="15dp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:onClick="goToMap"
         android:paddingHorizontal="10dp"
         android:paddingVertical="20dp"
@@ -68,6 +68,7 @@
                 android:layout_gravity="center"/>
 
             <TextView
+                android:id="@+id/active_alarm_tracking_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tracking"

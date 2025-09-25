@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.room.Room
+import com.ozapps.geowake.repository.AlarmRepository
 import com.ozapps.geowake.roomdb.LocationAlarm
 import com.ozapps.geowake.roomdb.LocationAlarmDatabase
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +25,8 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     private val _isAlarmActive = MutableLiveData(false)
     val isAlarmActive: LiveData<Boolean> = _isAlarmActive
+
+    val distanceFromService: LiveData<Float> = AlarmRepository.distance
 
     init {
         getAlarms()

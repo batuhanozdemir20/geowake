@@ -1,6 +1,7 @@
 package com.ozapps.geowake.views
 
 import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.media.RingtoneManager
 import android.os.Build
@@ -10,17 +11,23 @@ import android.os.Vibrator
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.preference.PreferenceManager
 import com.ozapps.geowake.R
+import com.ozapps.geowake.util.FormatDistance
 import com.ozapps.geowake.databinding.ActivityAlarmBinding
 import com.ozapps.geowake.language.BaseActivity
+import com.ozapps.geowake.service.LocationTrackingService
+import com.ozapps.geowake.viewmodel.AlarmViewModel
 
 class AlarmActivity : BaseActivity() {
     private lateinit var binding: ActivityAlarmBinding
     private lateinit var mediaPlayer: MediaPlayer
     private lateinit var vibrator: Vibrator
+    private lateinit var servisIntent: Intent
+    private val viewModel: AlarmViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +42,7 @@ class AlarmActivity : BaseActivity() {
         supportActionBar?.hide()
 
         val locationName = intent.getStringExtra("location_name")
-        val distance = intent.getIntExtra("distance",500)
+        servisIntent = Intent(this, LocationTrackingService::class.java)
 
         val silentMode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("silent",false)
 
@@ -53,8 +60,19 @@ class AlarmActivity : BaseActivity() {
             println("This device does not a vibration motor")
         }
 
-        binding.alarmMessage.text = locationName
-        binding.distanceTv.text = distance.toString()
+        binding.alarmMessage.text = locationName?.let {
+            it.ifEmpty { getString(R.string.your_destination) }
+        } ?: getString(R.string.your_destination)
+
+        viewModel.distanceFromService.observe(this) { distance ->
+            binding.distanceTv.text = FormatDistance.metersToKmWithoutType(distance)
+
+            binding.distanceTypeTv.text = if (distance < 1000f) {
+                "m"
+            } else {
+                "km"
+            }
+        }
     }
 
     fun stopTheAlarm(view: View){
@@ -64,6 +82,7 @@ class AlarmActivity : BaseActivity() {
             mediaPlayer.release()
         }
         vibrator.cancel()
+        stopService(servisIntent)
         finish()
     }
 }

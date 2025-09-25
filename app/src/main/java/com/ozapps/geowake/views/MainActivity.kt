@@ -37,6 +37,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.libraries.places.api.Places
 import com.ozapps.geowake.BuildConfig.MAPS_API_KEY
+import com.ozapps.geowake.util.FormatDistance
 import com.ozapps.geowake.viewmodel.MainViewModel
 
 class MainActivity : BaseActivity() {
@@ -103,7 +104,7 @@ class MainActivity : BaseActivity() {
         trackingPref = getSharedPreferences("com.ozapps.geowake", MODE_PRIVATE)
         trackingID = trackingPref.getInt("tracking_alarm_id",0)
 
-        alarmAdapter = AlarmAdapter(this)
+        alarmAdapter = AlarmAdapter(this, this, viewModel)
         binding.alarmsRv.layoutManager = LinearLayoutManager(this@MainActivity)
         binding.alarmsRv.adapter = alarmAdapter
 
@@ -134,10 +135,13 @@ class MainActivity : BaseActivity() {
                         getString(R.string.your_destination)
                     }
                 }
-                binding.activeAlarmDistanceTv.text = "${distance}m"
+                binding.activeAlarmTrackingTv.text = FormatDistance.metersToKm(distance.toFloat())
             } else {
                 binding.activeAlarmRl.visibility = View.GONE
             }
+        }
+        viewModel.distanceFromService.observe(this) { distance ->
+            binding.activeAlarmDistanceTv.text = FormatDistance.metersToKm(distance)
         }
     }
 

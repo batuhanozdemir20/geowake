@@ -8,18 +8,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.lifecycle.LifecycleOwner
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.ozapps.geowake.R
+import com.ozapps.geowake.util.FormatDistance
 import com.ozapps.geowake.databinding.AlarmRowBinding
 import com.ozapps.geowake.roomdb.LocationAlarm
+import com.ozapps.geowake.viewmodel.MainViewModel
 import com.ozapps.geowake.views.MapsActivity
 
 class AlarmAdapter(
-    private val context: Context
+    private val context: Context,
+    private val lifecycleOwner: LifecycleOwner,
+    private val viewModel: MainViewModel
 ): Adapter<AlarmAdapter.AlarmHolder>() {
     class AlarmHolder(val binding: AlarmRowBinding): ViewHolder(binding.root)
 
@@ -58,16 +63,23 @@ class AlarmAdapter(
         val alarm = alarms[position]
         val defaultDistance = settingsPref.getString("default_distance","500")!!.toInt()
         holder.binding.alarmNameTv.text = alarm.locationName
-        holder.binding.alarmDistanceTv.text = (alarm.distance ?: defaultDistance).toString() + "m"
+        holder.binding.alarmDistanceTv.text = FormatDistance.metersToKm((alarm.distance ?: defaultDistance).toFloat())
 
         var state = 1
 
         val trackingAlarmID = trackingPref.getInt("tracking_alarm_id",0)
         if (trackingAlarmID == alarm.id) {
+            holder.itemView.setBackgroundResource(R.drawable.active_alarm_row_bg)
             holder.binding.iconIv.setImageResource(R.drawable.distance_icon)
             holder.binding.trackingTv.visibility = View.VISIBLE
-            holder.itemView.setBackgroundResource(R.drawable.active_alarm_row_bg)
+            holder.binding.trackingTv.text = alarm.distance?.let {
+                FormatDistance.metersToKm(it.toFloat())
+            } ?: FormatDistance.metersToKm(defaultDistance.toFloat())
             state = 2
+
+            viewModel.distanceFromService.observe(lifecycleOwner) { distance ->
+                holder.binding.alarmDistanceTv.text = FormatDistance.metersToKm(distance)
+            }
         }
 
         holder.itemView.setOnClickListener {

@@ -62,7 +62,8 @@ import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
-import com.ozapps.geowake.Util.AlarmState
+import com.ozapps.geowake.util.AlarmState
+import com.ozapps.geowake.util.FormatDistance
 import com.ozapps.geowake.viewmodel.MapsViewModel
 
 class MapsActivity : BaseActivity(), OnMapReadyCallback {
@@ -117,7 +118,6 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
         hint1 = settingsPrefs.getBoolean("hint",true)
         buttonEnterAnim = AnimationUtils.loadAnimation(this,R.anim.button_enter)
         buttonClickAnim = AnimationUtils.loadAnimation(this,R.anim.button_click)
-        searchPlace()
 
         viewModel.alarm.observe(this){ alarm ->
             currentAlarm = alarm
@@ -148,6 +148,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
 
         viewModel.setStateFromIntent(state)
 
+        searchPlace()
         loadInterstitialAd()
 
         alarmSetAlert = AlertDialog.Builder(this,R.style.alert_dialog_theme)
@@ -237,6 +238,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
             AlarmState.ACTIVE -> { // active alarm
                 binding.alarmStopFab.visibility = View.VISIBLE
                 binding.focusMarkerIb.visibility = View.VISIBLE
+                binding.remainingDistance.visibility = View.VISIBLE
                 mMap.addMarker(MarkerOptions().position(markerLatLng).title(currentAlarm.locationName))
                 mMap.addCircle(
                     CircleOptions()
@@ -261,6 +263,10 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                             }
                             .show()
                     },1500)
+                }
+
+                viewModel.distanceFromService.observe(this) { distance ->
+                    binding.remainingDistance.text = FormatDistance.metersToKm(distance)
                 }
             }
             else -> Log.e("AlarmStateInMaps","State is null")

@@ -29,26 +29,30 @@ import com.ozapps.geowake.roomdb.LocationAlarm
 import com.ozapps.geowake.views.AlarmActivity
 import com.ozapps.geowake.views.MapsActivity
 import androidx.core.content.edit
+import com.ozapps.geowake.util.FormatDistance
+import com.ozapps.geowake.repository.AlarmRepository
 
 class LocationTrackingService : Service() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
 
+    private lateinit var notificationManager: NotificationManagerCompat
     private lateinit var serviceNotification: Notification
     private lateinit var alarmNotification: Notification
+    private lateinit var servicePI: PendingIntent
 
     private lateinit var settingsPrefs: SharedPreferences
     private lateinit var currentAlarm: LocationAlarm
     private lateinit var destinationLatLng: LatLng
-    private var defaultDistance = 100
+    private var isAlarmTriggered = false
 
     override fun onCreate() {
         super.onCreate()
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         settingsPrefs = PreferenceManager.getDefaultSharedPreferences(this)
-        defaultDistance = settingsPrefs.getString("default_distance","500")!!.toInt()
         destinationLatLng = LatLng(0.0,0.0)
         currentAlarm = LocationAlarm(null,0.0,0.0,null)
+        notificationManager = NotificationManagerCompat.from(this)
 
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
@@ -68,7 +72,7 @@ class LocationTrackingService : Service() {
             locationName = intent?.getStringExtra("tracking_alarm_name")
             latitude = intent?.getDoubleExtra("tracking_alarm_latitude",0.0)!!
             longitude = intent.getDoubleExtra("tracking_alarm_longitude",0.0)
-            distance = intent.getIntExtra("tracking_alarm_distance",defaultDistance)
+            distance = intent.getIntExtra("tracking_alarm_distance",500)
         }
         destinationLatLng = LatLng(currentAlarm.latitude,currentAlarm.longitude)
         return START_STICKY
@@ -84,19 +88,27 @@ class LocationTrackingService : Service() {
             currentDistance
         )
 
-        if (currentDistance[0] < currentAlarm.distance!!) {
+        AlarmRepository.updateDistance(currentDistance[0])
+
+        updateNotification(
+            currentDistance[0],
+            currentAlarm.locationName?.let {
+                it.ifEmpty { getString(R.string.your_destination) }
+            } ?: getString(R.string.your_destination)
+        )
+
+        if (currentDistance[0] < currentAlarm.distance!! && !isAlarmTriggered) {
+            isAlarmTriggered = true
             val alarmIntent = Intent(this, AlarmActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
                 putExtra("location_name",currentAlarm.locationName)
-                putExtra("distance",currentDistance[0].toInt())
             }
 
             val alarmType = settingsPrefs.getString("alarm_type","full_screen")
             when (alarmType) {
                 "full_screen" -> startActivity(alarmIntent)
                 "notification" -> {
-                    val notificationManager = NotificationManagerCompat.from(this)
                     if (ActivityCompat.checkSelfPermission(
                             this,
                             Manifest.permission.POST_NOTIFICATIONS
@@ -105,14 +117,28 @@ class LocationTrackingService : Service() {
                     notificationManager.notify(2, alarmNotification)
                 }
             }
-            fusedLocationProviderClient.removeLocationUpdates(locationCallback)
-            stopSelf()
 
             val sharedPref = getSharedPreferences("com.ozapps.geowake", MODE_PRIVATE)
-            sharedPref.edit() { clear() }
+            sharedPref.edit { clear() }
         }
     }
 
+    private fun updateNotification(distance: Float, locationName: String) {
+        val message = FormatDistance.metersToKm(distance)
+        val notification = NotificationCompat.Builder(this,"location_service")
+            .setContentTitle(locationName)
+            .setContentText(message)
+            .setSmallIcon(R.drawable.geowake_icon)
+            .setContentIntent(servicePI)
+            .setOngoing(true)
+            .build()
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) { return }
+        notificationManager.notify(11,notification)
+    }
     private fun createNotification() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val serviceChannel = NotificationChannel(
@@ -132,7 +158,7 @@ class LocationTrackingService : Service() {
 
         val serviceIntent = Intent(this, MapsActivity::class.java)
             .putExtra("state",2)
-        val servicePI = PendingIntent.getActivity(
+        servicePI = PendingIntent.getActivity(
             this,
             1,
             serviceIntent,

@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.room.Room
-import com.google.android.gms.maps.model.LatLng
-import com.ozapps.geowake.Util.AlarmState
+import com.ozapps.geowake.util.AlarmState
+import com.ozapps.geowake.repository.AlarmRepository
 import com.ozapps.geowake.roomdb.LocationAlarm
 import com.ozapps.geowake.roomdb.LocationAlarmDatabase
 import kotlinx.coroutines.Dispatchers
@@ -24,11 +24,11 @@ class MapsViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _alarm = MutableLiveData<LocationAlarm>()
     val alarm: LiveData<LocationAlarm> = _alarm
-    private val _marker = MutableLiveData<LatLng>()
-    val marker: LiveData<LatLng> = _marker
 
     private val _state = MutableLiveData<AlarmState>()
     val state: LiveData<AlarmState> = _state
+
+    val distanceFromService: LiveData<Float> = AlarmRepository.distance
 
     fun getAlarmById(alarmId: Int) {
         viewModelScope.launch(Dispatchers.IO) {

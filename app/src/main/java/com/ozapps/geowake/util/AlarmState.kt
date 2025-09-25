@@ -1,4 +1,4 @@
-package com.ozapps.geowake.Util
+package com.ozapps.geowake.util
 
 enum class AlarmState {
     NEW,
